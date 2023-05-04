@@ -5,7 +5,7 @@ import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 
-const Contacts = () => {
+const Addresses = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -60,7 +60,7 @@ const Contacts = () => {
       />
       <Box
         m="40px 0 0 0"
-        height="75vh"
+        height="60vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -72,7 +72,7 @@ const Contacts = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.greenAccent[900],
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -80,7 +80,7 @@ const Contacts = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.greenAccent[900],
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
@@ -100,4 +100,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default Addresses;

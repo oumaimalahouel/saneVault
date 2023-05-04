@@ -9,7 +9,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
@@ -30,7 +30,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     <MenuItem
       active={selected === title}
       style={{
-        color: colors.grey[100],
+        color: colors.grey[900],
       }}
       onClick={() => setSelected(title)}
       icon={icon}
@@ -50,7 +50,7 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        
+      
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
         },
@@ -73,7 +73,7 @@ const Sidebar = () => {
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
-              color: colors.grey[100],
+              color: colors.grey[900],
             }}
           >
             {!isCollapsed && (
@@ -83,7 +83,7 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
+                <Typography variant="h3" color={colors.grey[900]}>
                   ADMINIS
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -107,13 +107,15 @@ const Sidebar = () => {
               <Box textAlign="center">
                 <Typography
                   variant="h2"
-                  color={colors.grey[100]}
+                  color={colors.grey[900]}
+
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
                   Oumaima
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography variant="h5" color={colors.greenAccent[500]}
+                sx={{ m: 2 }}>
                  lahoueloumaima1@gmail.com
                 </Typography>
               </Box>
@@ -131,7 +133,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              color={colors.grey[700]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Data
@@ -167,7 +169,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              color={colors.grey[700]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Pages
@@ -179,13 +181,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            
             <Item
               title="FAQ Page"
               to="/faq"
@@ -196,7 +192,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              color={colors.grey[700]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Charts

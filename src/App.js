@@ -8,7 +8,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Dashboard from "./scenes/dashboard";
 import Password from "./scenes/Password";
-import Contacts from "./scenes/contacts";
+import Contacts from "./scenes/addresses";
 
 
 function App() {
