@@ -9,6 +9,7 @@ import { ColorModeContext, useMode } from "./theme";
 import Dashboard from "./scenes/dashboard";
 import Password from "./scenes/Password";
 import Contacts from "./scenes/addresses";
+import FAQ from "./scenes/faq";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/password" element={<Password />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/faq" element={<FAQ />} />
               </Routes>
           </main>
         </div>
