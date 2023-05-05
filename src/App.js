@@ -10,6 +10,8 @@ import Dashboard from "./scenes/dashboard";
 import Password from "./scenes/Password";
 import Contacts from "./scenes/addresses";
 import FAQ from "./scenes/faq";
+import Bar from "./scenes/bar";
+
 
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
               <Route path="/password" element={<Password />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/bar" element={<Bar />} />
               </Routes>
           </main>
         </div>

@@ -78,3 +78,48 @@ export const mockDataContacts = [
 
 
 
+export const mockBarData = [
+  {
+    country: "AD",
+    "hot dog": 137,
+    "hot dogColor": "hsl(229, 70%, 50%)",
+    burger: 96,
+    burgerColor: "hsl(296, 70%, 50%)",
+    kebab: 72,
+    kebabColor: "hsl(97, 70%, 50%)",
+    donut: 140,
+    donutColor: "hsl(340, 70%, 50%)",
+  },
+  {
+    country: "AE",
+    "hot dog": 55,
+    "hot dogColor": "hsl(307, 70%, 50%)",
+    burger: 28,
+    burgerColor: "hsl(111, 70%, 50%)",
+    kebab: 58,
+    kebabColor: "hsl(273, 70%, 50%)",
+    donut: 29,
+    donutColor: "hsl(275, 70%, 50%)",
+  },
+  {
+    country: "AF",
+    "hot dog": 109,
+    "hot dogColor": "hsl(72, 70%, 50%)",
+    burger: 23,
+    burgerColor: "hsl(96, 70%, 50%)",
+    kebab: 34,
+    kebabColor: "hsl(106, 70%, 50%)",
+    donut: 152,
+    donutColor: "hsl(256, 70%, 50%)",
+  },
+  {
+    country: "AG",
+    "hot dog": 133,
+    "hot dogColor": "hsl(257, 70%, 50%)",
+    burger: 52,
+    burgerColor: "hsl(326, 70%, 50%)",
+    kebab: 43,
+    kebabColor: "hsl(110, 70%, 50%)",
+    donut: 83,
+    donutColor: "hsl(9, 70%, 50%)",
+  }]
