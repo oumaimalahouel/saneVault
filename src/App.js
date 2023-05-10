@@ -4,13 +4,19 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 
 
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, Switch, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Dashboard from "./scenes/dashboard";
 import Password from "./scenes/Password";
-import Contacts from "./scenes/addresses";
+
 import FAQ from "./scenes/faq";
 import Bar from "./scenes/bar";
+
+import Login from "./scenes/authentification/Login";
+import SignUp from "./scenes/authentification/SignUp";
+import DashboradWrapper from "./components/DashboradWrapper";
+import Addresses from "./scenes/addresses";
+
 
 
 
@@ -22,18 +28,23 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+       
+         
         <div className="app">
-          <Sidebar isSidebar={isSidebar} />
-          <main className="content">
-            <Topbar setIsSidebar={setIsSidebar} />
+        
+          
+          
+            
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/password" element={<Password />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/bar" element={<Bar />} />
-              </Routes>
-          </main>
+            < Route path="/login" element={<Login/>} />
+              <Route path="/signup" element={<SignUp/>} />
+              <Route path="/" element={<DashboradWrapper ><Dashboard /></DashboradWrapper >} />
+              <Route path="/password" element={<DashboradWrapper ><Password /></DashboradWrapper>} />
+              <Route path="/addresses" element={<DashboradWrapper ><Addresses /></DashboradWrapper>} />
+              <Route path="/faq" element={<DashboradWrapper ><FAQ /></DashboradWrapper>} />
+              <Route path="/bar" element={<DashboradWrapper ><Bar /></DashboradWrapper>} />
+            </Routes>
+         
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>

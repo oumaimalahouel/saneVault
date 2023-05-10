@@ -49,10 +49,10 @@ const Password = () => {
             borderBottom: "none",
           },
           "& .name-column--cell": {
-            color: colors.greenAccent[300],
+            color: colors.grey[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.greenAccent[900],
+            backgroundColor: colors.grey[900],
             fontSize:"15px",
             
             borderBottom: "none",
@@ -62,7 +62,7 @@ const Password = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.greenAccent[900],
+            backgroundColor: colors.grey[900],
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
