@@ -98,7 +98,7 @@
   }
   .formLogin input[type="checkbox"]:checked {
     background-color: var(--main-color-hover);
-  
+    
   }
   
   .formLogin input[type="checkbox"]:focus {

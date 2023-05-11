@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Box, Typography } from "@mui/material";
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import styles from "./SignUp.module.css";
@@ -48,19 +49,33 @@ const Login = () => {
   };
 
   return (
+   <Box>
+    <Box
+      width="100%"
+      backgroundColor="var(--main-color)"
+      p="0.4rem 2%"
+      textAlign="center"
+      
+    >
+      <Typography fontWeight="bold" fontSize="32px" color="white">
+        SaneVault
+      </Typography>
+    </Box>
     <div className={styles.container}>
       <form className={styles.formLogin} onSubmit={submitHandler} autoComplete="off">
         <h2>Sign In</h2>
         <div>
           <div>
             <input type="text" name="email" value={data.email} placeholder="E-mail" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
-            <EmailRoundedIcon/>
+            <EmailRoundedIcon style={{position: 'absolute', top: '50%', left: '10px', transform: 'translateY(-50%)' , marginLeft: '-5px',color:'var(--main-color)'}}/>
                       </div>
         </div>
+
+        
         <div>
           <div>
             <input type="password" name="password" value={data.password} placeholder="Password" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
-            <LockOutlinedIcon/>
+            <LockOutlinedIcon style={{position: 'absolute', top: '50%', left: '10px', transform: 'translateY(-50%)' , marginLeft: '-5px',color:'var(--main-color)'}}/>
           </div>
         </div>
 
@@ -73,6 +88,7 @@ const Login = () => {
       </form>
       <ToastContainer />
     </div>
+    </Box>
   );
 };
 

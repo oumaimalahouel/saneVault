@@ -30,7 +30,7 @@ function App() {
         <CssBaseline />
        
          
-        <div className="app">
+        
         
           
           
@@ -45,7 +45,7 @@ function App() {
               <Route path="/bar" element={<DashboradWrapper ><Bar /></DashboradWrapper>} />
             </Routes>
          
-        </div>
+        
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

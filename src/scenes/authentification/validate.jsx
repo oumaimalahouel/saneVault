@@ -11,14 +11,14 @@ export const validate = (data, type) => {
   
     if (!data.password) {
       errors.password = "Password is Required";
-    } else if (!(data.password.length >= 6)) {
-      errors.password = "Password needs to be 6 character or more";
+    } else if (!/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/.test(String(data.password).toLowerCase())) {
+      errors.password = "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!";
     } else {
       delete errors.password;
     }
   
     if (type === "signUp") {
-      if (!data.name.trim()) {
+      if (!data.name) {
         errors.name = "Username is Required!";
       } else {
         delete errors.name;
