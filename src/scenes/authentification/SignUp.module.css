@@ -1,27 +1,45 @@
 .formLogin {
     background: #fff;
-    box-shadow: var(--box-shadow);
-    border: 1px solid var(--secondary-color);
-    padding: 25px;
+   
+    
+    padding: 2px;
     border-radius: 11px;
-    min-width: 500px;
+    
+    margin:60px;
+   
+    
+  }
+  .imageLogin{
+    
+   
+   height: 70vh;
   }
   
   .container {
     display: flex;
-    justify-content: center;
+    
     align-items: center;
     min-height: 100vh;
+    padding: 20px;
+    
+    
+  }
+  h2{
+    display: inline-block; font-size: 24px; font-weight: blod; margin-right: 10px;
+  }
+  h1{
+    display: inline-block; font-size: 24px; font-weight: bold; margin-right: 10px;
   }
   
   .formLogin > h2 {
-    margin-bottom: 28px;
-    color: var(--main-color);
-    text-align: center;
+    
+   font-size: 30px;
+    color: rgb(200, 72, 225);
+    text-align: end;
   }
   
   .formLogin > div {
-    margin-bottom: 15px;
+    margin-bottom: 40px;
   }
   
   .formLogin > div > div {
@@ -34,10 +52,14 @@
     background: #fff;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid var(--secondary-color);
-    box-shadow: var(--box-shadow);
-    padding: 15px 32px;
-    width: 100%;
+    border:none;
+    border-bottom: 5px solid;
+
+    border-image: conic-gradient(red, rgba(72, 110, 224, 0.918), rgb(6, 58, 229), magenta, rgb(225, 15, 236)) 1;
+
+    padding: 25px 40px;
+    font-size: 20px;
+    width: 150%;
     font-family: Arial, Helvetica, sans-serif;
     transition: all 0.3s ease-in-out;
     -webkit-transition: all 0.3s ease-in-out;
@@ -56,7 +78,7 @@
   }
   
   .completed > input {
-    border: 1px solid #42ba96 !important;
+    border: 1px solid rgb(178, 44, 205) !important;
     position: relative;
   }
   
@@ -142,24 +164,27 @@
   .formLogin button[type="submit"] {
     display: block;
     text-align: center;
-    width: 100%;
+    width: 150%;
     border-radius: 8px;
     outline: 0;
     border: none;
     color: #fff;
-    padding: 10px;
+    padding: 20px;
     margin: 15px 0;
-    background: var(--main-color);
+   font-size: large;
+   font-weight: 700;
+   letter-spacing: 7px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
+    background-image: url(../../../public/assets/butt.jpg);
   }
   
   .formLogin button[type="submit"]:hover {
-    background: var(--main-color-hover);
+  
     cursor: pointer;
   }
   

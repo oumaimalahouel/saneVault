@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 import styles from "./SignUp.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,25 +47,30 @@ const Login = () => {
   };
 
   return (
-   <Box>
-    <Box
-      width="100%"
-      backgroundColor="var(--main-color)"
-      p="0.4rem 2%"
-      textAlign="center"
-      
-    >
-      <Typography fontWeight="bold" fontSize="32px" color="white">
-        SaneVault
-      </Typography>
-    </Box>
+  
     <div className={styles.container}>
+      
+      <div className={styles.imageLogin}><img
+                  
+                  width="100%"
+                  height="100%"
+                  src={`../../assets/welcome.jpg`}
+
+                  
+                /></div>
+      
       <form className={styles.formLogin} onSubmit={submitHandler} autoComplete="off">
-        <h2>Sign In</h2>
+      <h1>Hello ! </h1>
+      <br />
+        <h2>Good Morning</h2>
+        <br />
+        <div style={{ textAlign: 'end', marginTop:'50px' }}>
+        <h2 style={{color:'rgb(200, 72, 225)',fontSize:'40px',marginLeft:'200px'}}>Login </h2> <h1>Your Account</h1>
+        </div>
         <div>
           <div>
-            <input type="text" name="email" value={data.email} placeholder="E-mail" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
-            <EmailRoundedIcon style={{position: 'absolute', top: '50%', left: '10px', transform: 'translateY(-50%)' , marginLeft: '-5px',color:'var(--main-color)'}}/>
+            <input type="text" name="email" value={data.email} placeholder="E-mail Address" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
+            
                       </div>
         </div>
 
@@ -75,20 +78,20 @@ const Login = () => {
         <div>
           <div>
             <input type="password" name="password" value={data.password} placeholder="Password" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
-            <LockOutlinedIcon style={{position: 'absolute', top: '50%', left: '10px', transform: 'translateY(-50%)' , marginLeft: '-5px',color:'var(--main-color)'}}/>
+            
           </div>
         </div>
 
         <div>
-          <button type="submit">Login</button>
+          <button type="submit">SUBMIT</button>
           <span style={{ color: "#a29494", textAlign: "center", display: "inline-block", width: "100%" }}>
-            Don't have a account? <Link to="/signup">Create account</Link>
+            <Link to="/signup">Create Account</Link>
           </span>
         </div>
       </form>
       <ToastContainer />
     </div>
-    </Box>
+ 
   );
 };
 
