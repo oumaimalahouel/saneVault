@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import styles from "./SignUp.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,18 +14,35 @@ const Login = () => {
 
   const [touched, setTouched] = useState({});
 
-  const chaeckData = (obj) => {
+  const checkData = (obj) => {
     const { email, password } = obj;
-    const urlApi = `https://lightem.senatorhost.com/login-react/index.php?email=${email.toLowerCase()}&password=${password}`;
-    const api = axios
-      .get(urlApi)
-      .then((response) => response.data)
-      .then((data) => (data.ok ? notify("You login to your account successfully", "success") : notify("Your password or your email is wrong", "error")));
-    toast.promise(api, {
-      pending: "Loading your data...",
-      success: false,
-      error: "Something went wrong!",
+    const urlApi = "http://159.65.235.250:5443/idp/auth/sign-in"; // Endpoint de l'API Swagger
+
+    const requestBody = {
+      email: email,
+      password: password,
+    };
+
+    axios
+    .post(urlApi, requestBody)
+    .then((response) => {
+      // Traitez la réponse de l'API en fonction de votre logique d'authentification
+      if (response.data.success) {
+        const accessToken = response.data.resultData.accessToken;
+        const refreshToken = response.data.resultData.refreshToken;
+        // Stockez accessToken et refreshToken dans la session
+        sessionStorage.setItem("accessToken", accessToken);
+        sessionStorage.setItem("refreshToken", refreshToken);
+        notify("You logged in to your account successfully", "success");
+      } else {
+        notify("Your password or email is wrong", "error");
+      }
+    })
+    .catch((error) => {
+      // Gérez les erreurs de l'API
+      notify("Something went wrong!", "error");
     });
+  
   };
 
   const changeHandler = (event) => {
@@ -43,8 +59,9 @@ const Login = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    chaeckData(data);
+    checkData(data);
   };
+
 
   return (
   

@@ -1,5 +1,14 @@
 export const validate = (data, type) => {
     const errors = {};
+/*
+    if (type === "birthday") {
+      errors.birthday = "birthday is Required!";
+    } else if (!/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test(data.birthday)) {
+      errors.birthday = "Birthday is invalid! should be in the format day/month/year";
+    } else {
+      delete errors.birthday;
+    }*/
+
   
     if (!data.email) {
       errors.email = "Email is Required!";
@@ -18,11 +27,19 @@ export const validate = (data, type) => {
     }
   
     if (type === "signUp") {
-      if (!data.name) {
-        errors.name = "Username is Required!";
+      if (!data.firstName ) {
+        errors.firstName = "firstname is Required!";
       } else {
-        delete errors.name;
+        delete errors.firstName;
       }
+      if (type === "signUp") {
+        if (!data.lastName ) {
+          errors.lastName = "lastName is Required!";
+        } else {
+          delete errors.lastName;
+        }
+        
+
       if (!data.confirmPassword) {
         errors.confirmPassword = "Confirm the Password";
       } else if (!(data.confirmPassword === data.password)) {
@@ -36,7 +53,7 @@ export const validate = (data, type) => {
       } else {
         errors.IsAccepted = "Accept terms!";
       }
-    }
+    }}
   
     return errors;
   };
