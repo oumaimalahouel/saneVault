@@ -1,11 +1,11 @@
 .formLogin {
-    background: #fff;
-   
-    
-    padding: 2px;
-    border-radius: 11px;
-    
-    margin:100px;
+  top: 0px;
+  left: 0px;
+  width: 1920px;
+  height: 1080px;
+  /* UI Properties */
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  opacity: 1;
    
     
   }
@@ -212,4 +212,17 @@
       padding: 10px 32px;
     }
   }
-  
+  .Typography{
+    top: 128px;
+left: 1074px;
+width: 207px;
+height: 85px;
+/* UI Properties */
+text-align: left;
+font: normal normal bold 62px/85px Nunito Sans;
+letter-spacing: 0px;
+color: #3E3E3E;
+text-transform: uppercase;
+opacity: 1;
+font-size: 62px;
+  }

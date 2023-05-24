@@ -16,6 +16,9 @@ import Login from "./scenes/authentification/Login";
 import SignUp from "./scenes/authentification/SignUp";
 import DashboradWrapper from "./components/DashboradWrapper";
 import Addresses from "./scenes/addresses";
+import ImageComponent from "./scenes/authentification/ImageComponent";
+import LoginForm from "./scenes/authentification/LoginForm";
+
 
 
 
@@ -36,6 +39,8 @@ function App() {
           
             
             <Routes>
+            < Route path="/form" element={<LoginForm/>} />
+            < Route path="/image" element={<ImageComponent/>} />
             < Route path="/login" element={<Login/>} />
               <Route path="/signup" element={<SignUp/>} />
               <Route path="/" element={<DashboradWrapper ><Dashboard /></DashboradWrapper >} />
@@ -43,6 +48,7 @@ function App() {
               <Route path="/addresses" element={<DashboradWrapper ><Addresses /></DashboradWrapper>} />
               <Route path="/faq" element={<DashboradWrapper ><FAQ /></DashboradWrapper>} />
               <Route path="/bar" element={<DashboradWrapper ><Bar /></DashboradWrapper>} />
+             
             </Routes>
          
         
