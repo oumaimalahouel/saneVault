@@ -12,13 +12,13 @@ import Password from "./scenes/Password";
 import FAQ from "./scenes/faq";
 import Bar from "./scenes/bar";
 
-import Login from "./scenes/authentification/Login";
+
 import SignUp from "./scenes/authentification/SignUp";
 import DashboradWrapper from "./components/DashboradWrapper";
 import Addresses from "./scenes/addresses";
 import ImageComponent from "./scenes/authentification/ImageComponent";
 import LoginForm from "./scenes/authentification/LoginForm";
-
+import AuthWrapper from "./components/authWrapper";
 
 
 
@@ -41,8 +41,8 @@ function App() {
             <Routes>
             < Route path="/form" element={<LoginForm/>} />
             < Route path="/image" element={<ImageComponent/>} />
-            < Route path="/login" element={<Login/>} />
-              <Route path="/signup" element={<SignUp/>} />
+            < Route path="/login" element={<AuthWrapper> <LoginForm/></AuthWrapper>} />
+              <Route path="/signup" element={<AuthWrapper> <SignUp/></AuthWrapper>} />
               <Route path="/" element={<DashboradWrapper ><Dashboard /></DashboradWrapper >} />
               <Route path="/password" element={<DashboradWrapper ><Password /></DashboradWrapper>} />
               <Route path="/addresses" element={<DashboradWrapper ><Addresses /></DashboradWrapper>} />

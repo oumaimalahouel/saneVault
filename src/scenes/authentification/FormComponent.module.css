@@ -1,246 +1,323 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Sigmar&family=Source+Sans+Pro:wght@400;600;700&display=swap');
 
 .container {
-    display: flex;
-    flex-direction: row;
-   
-  }
-  
-  .left,
-  .right {
-    flex: 1;
-  
-  }
-  
+  display: flex;
+  flex-direction: row;
 
-h3{
-    top: 128px;
-    left: 1074px;
-    width: 207px;
-    height: 85px;
-    /* UI Properties */
-    text-align: left;
-    font:  'Lato', sans-serif;
-    letter-spacing: 0px;
-    color: #3E3E3E;
-    text-transform: uppercase;
-    opacity: 1;
-    font-size: 62px;
+}
+
+.left,
+.right {
+  flex: 1;
+
+}
+.unCompleted > input {
+  border: 1px solid #ff0000 !important;
+}
+.formLogin > div span.error {
+  height: 10px;
+  text-align: left;
+  margin-top: 5px;
+  width: fit-content;
+  font-size: 0.9rem;
+  color: red;
+  line-height: 1px;
+  padding: 9px 3px;
+  border-radius: 3px;
+  background-color: rgba(255, 0, 0, 0.175);
+  display: inline-block;
+}
+
+h3 {
+
+  /* UI Properties */
+  text-align: left;
+
+  letter-spacing: 0px;
+  color: #3E3E3E;
+ 
+  opacity: 1;
+  font-size: 62px;
+
 }
 
 .formLogin input[type="text"],
-  .formLogin input[type="email"],
-  .formLogin input[type="password"] {
-    top: 357px;
-left: 1074px;
-width: 691px;
-height: 65px;
-background: #FFFFFF 0% 0% no-repeat padding-box;
-border: 1px solid #DBDBDB;
-border-radius: 11px;
-opacity: 1;
+.formLogin input[type="email"],
+.formLogin input[type="password"] {
+  top: 357px;
+  left: 1074px;
+  width: 691px;
+  height: 65px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #DBDBDB;
+  border-radius: 11px;
+  opacity: 1;
 
-  
-  }
 
- .email ,label{
-    padding-bottom :10px; ;
-    padding-top: 35px;
-    
-  }
-.title{
-    top: 20px;
-    left: 1074px;
-    width: 207px;
-    height: 20px;
-    text-align: left;
-    margin-bottom:90px ;
-    margin-top: 128px;
-    
-    
 }
 
-  .formLogin{
-   
-width: 1920px;
-height: 800px;
-/* UI Properties */
-background: #FFFFFF 0% 0% no-repeat padding-box;
-opacity: 1;
-display: flex;
-flex-direction: column;
-margin-left: 88px;
+.email,
+label {
+  padding-bottom: 10px;
+  ;
+  padding-top: 35px;
 
-  }
+}
 
+.title {
+  top: 20px;
+  left: 1074px;
   
-  .formLogin ::placeholder {
-    padding-left: 22px;
-    padding-top: 18px;
-   padding-bottom: 17px;
-
-    /* UI Properties */
-   
-
-/* UI Properties */
-text-align: left;
-
-letter-spacing: 0px;
-color: #A0A0A0;
-opacity: 1;
-font: "Lato", Nunito Sans;
-font-size: 22px;
-
-  }
-
-  .formLogin button[type="submit"] {
-    top: 719px;
-left: 1074px;
-width: 691px;
-height: 80px;
-/* UI Properties */
-background: #5547D2 0% 0% no-repeat padding-box;
-border-radius: 11px;
-opacity: 1;
-margin-top: 80px;
+  height: 20px;
+  text-align: left;
+  margin-bottom: 90px;
+  margin-top: 128px;
 
 
-  }
+}
+
+.unCompleted>input {
+  border: 1px solid #ff0000 !important;
+}
+
+.completed>input {
+  border: 1px solid rgb(178, 44, 205) !important;
+  position: relative;
+}
+
+.unCompleted::after {
+  content: "";
+
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+}
+
+.completed::after {
+  content: "";
+
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+}
+
+.formLogin {
+
+  width: 1920px;
+  height: 800px;
+  /* UI Properties */
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 88px;
+
+}
+
+
+.formLogin ::placeholder {
+  padding-left: 22px;
+  padding-top: 18px;
+  padding-bottom: 17px;
+
+  /* UI Properties */
+
+
+  /* UI Properties */
+  text-align: left;
+
+  letter-spacing: 0px;
+  color: #121010;
+  opacity: 1;
+  font: "Lato", Nunito Sans;
+  font-size: 22px;
+
+}
+
+.formLogin button[type="submit"] {
+  top: 719px;
+  left: 1074px;
+  width: 691px;
+  height: 80px;
+  /* UI Properties */
+  background: #5547D2 0% 0% no-repeat padding-box;
+  border-radius: 11px;
+  opacity: 1;
+  margin-top: 80px;
+
+
+}
 
 
 
 
 
 
-  label{
-   
-/* UI Properties */
-text-align: left;
-   font:  'Lato', sans-serif;
-letter-spacing: 0px;
-color: #525252;
-text-transform: capitalize;
-opacity: 1;
-font-weight: bold;
-font-size: 30px;
-text-align: left;
-opacity: 100ù;
-  }
+label {
 
-  .formGroup {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-  }
-  
-  .formGroup label {
-    margin-bottom: 5px;
-  }
-  
-  .formGroup input {
-    padding: 5px;
-    border: 1px solid #ccc;
-  }
-  .buttonGroup {
+  /* UI Properties */
+  text-align: left;
+  font: 'Lato', sans-serif;
+  letter-spacing: 0px;
+  color: #525252;
+  text-transform: capitalize;
+  opacity: 1;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: left;
+  opacity: 100ù;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.formGroup label {
+  margin-bottom: 5px;
+}
+
+.formGroup input {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.buttonGroup {
+
+  display: flex;
+  align-items: center;
+
+}
+
+.buttonGroup button {
+  margin-right: 1px;
+  /* Ajustez cette valeur selon vos besoins */
+}
+
+.buttonGroup span {
+  margin-left: 10px;
+  /* Ajustez cette valeur selon vos besoins */
+}
+
+.passwordInputContainer {
+  position: relative;
+}
+
+.passwordInput {
+  padding-right: 40px;
  
-    display: flex;
-    align-items: center;
-    
-  }
-  
-  .buttonGroup button {
-    margin-right: 1px; /* Ajustez cette valeur selon vos besoins */
-  }
-  
-  .buttonGroup span {
-    margin-left: 10px; /* Ajustez cette valeur selon vos besoins */
-  }
-  .passwordInputContainer {
-    position: relative;
-  }
-  
-  .passwordInput {
-    padding-right: 40px; /* Ajustez la valeur en fonction de la largeur du bouton */
-  }
-  
-  .togglePassword {
-    position: absolute;
-    top: 50%;
-    right: 1253px; 
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    height: 100px;
-    
-  }
-  .togglePassword,img{
-   
-width: 32px;
-height: 27px;
-opacity: 1;
-  }
-  .formLogin input[type="text"]:focus,
-  .formLogin input[type="email"]:focus,
-  .formLogin input[type="password"]:focus {
-    padding-left: 22px;
-    padding-top: 18px;
-    padding-bottom: 17px;
-    text-align: left;
-    letter-spacing: 0px;
-    color: #A0A0A0;
-    opacity: 1;
-    font: "Lato", Nunito Sans;
-    font-size: 22px;
-  }
+}
+
+.togglePassword {
+  position: absolute;
+  top: 50%;
+  right: 1253px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  height: 100px;
+
+}
+
+.togglePassword,
+img {
+
+  width: 32px;
+  height: 27px;
+  opacity: 1;
+}
+
+.formLogin input[type="text"]:focus,
+.formLogin input[type="email"]:focus,
+.formLogin input[type="password"]:focus {
+  padding-left: 22px;
+  padding-top: 18px;
+  padding-bottom: 17px;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  font: "Lato", Nunito Sans;
+  font-size: 22px;
+}
 
 
-  .formLogin ::placeholder {
-    padding-left: 22px;
-    padding-top: 18px;
-    padding-bottom: 17px;
-    text-align: left;
-    letter-spacing: 0px;
-    color: #A0A0A0;
-    opacity: 1;
-    font: "Lato", Nunito Sans;
-    font-size: 22px;
-  }
-  
-  .formLogin:focus-within::placeholder {
-    caret-color: #A0A0A0; /* Utilisez la même couleur que la couleur du texte du placeholder */
-  }
-  
-  
-  
-  a{
-    top: 585px;
-left: 1594px;
-width: 158px;
-height: 26px;
-/* UI Properties */
-text-align: left;
-font: "Lato", Nunito Sans;
-font-weight: bold;
-letter-spacing: 0px;
-color: #5547D2;
-text-transform: capitalize;
-opacity: 1;
-font-size: 19px;
-text-decoration: none;
-  }
-  .formLogin button[type="submit"]{
-   
+
+.formLogin input{
+  padding-left: 22px;
+  padding-top: 18px;
+  padding-bottom: 17px;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  font: "Lato", Nunito Sans;
+  font-size: 22px;
+}
+
+.formLogin ::placeholder {
+  padding-left: 22px;
+  padding-top: 18px;
+  padding-bottom: 17px;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #A0A0A0;
+  opacity: 1;
+  font: "Lato", Nunito Sans;
+  font-size: 22px;
+}
 
 
-text-align: center;
-font-size: 30px;
-letter-spacing: 0px;
-color: #FFFFFF;
-text-transform: capitalize;
-opacity: 1;
 
-  }
+
+a {
+  top: 585px;
+  left: 1594px;
+  width: 158px;
+  height: 26px;
+  /* UI Properties */
+  text-align: left;
+  font: "Lato"," Nunito Sans";
+  font-weight: bold;
+  letter-spacing: 0px;
+  color: #5547D2;
+  text-transform: capitalize;
+  opacity: 1;
+  font-size: 19px;
+  text-decoration: none;
+  margin-left: 17px;
+}
+
+.formLogin button[type="submit"] {
+
+
+
+  text-align: center;
+  font-size: 30px;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  text-transform: capitalize;
+  opacity: 1;
+
+}
+.next img{
+margin-left: 15.54px;
+width: 11px;
+height: 19px;
+}
+
+.back img {
+  margin-right: 15.54px;
+width: 11px;
+height: 19px;
+}

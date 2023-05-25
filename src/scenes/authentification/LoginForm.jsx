@@ -71,7 +71,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={submitHandler} autoComplete="off" className={styles.formLogin}>
       <div className={styles.title}>
-        <h3>Log in</h3>
+        <h3>LOG IN</h3>
       </div>
 
       <div className={styles.formGroup}>
@@ -117,7 +117,9 @@ const LoginForm = () => {
  style={{marginTop:"84px",marginLeft:"200px",textAlign:"left",font:"Lato",fontSize:"22px",fontWeight:"bold"
  }}>
 
-          Don’t have an account? <Link to="/signup">Sign Up Now</Link>
+          Don’t have an account? 
+          <a href ="/signup">Sign Up Now</a>
+          
         </div>
 
       <ToastContainer />

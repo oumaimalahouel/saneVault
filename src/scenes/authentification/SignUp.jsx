@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
 
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-
-
-
+import styles from "./FormComponent.module.css";
+import { Link } from "react-router-dom";
 // Validate
 import { validate } from "./validate";
 // Styles
-import styles from "./SignUp.module.css";
+
 import "react-toastify/dist/ReactToastify.css";
 // Toast
 import { ToastContainer, toast } from "react-toastify";
 import { notify } from "./toast";
 //
-import { Link } from "react-router-dom";
+
 // Axios
 import axios from "axios";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
 
 
 
@@ -107,228 +104,93 @@ const handleDateChange = (date) => {
   setSelectedDate(date);
   changeHandler({ target: { name: 'birthday', value: date } });
 };
-  return (
-
-   
-      <div className={styles.container}>
-        <div className={styles.imagesignup}>
-          <img
-            alt="signup"
-            width="100%"
-            height="100%"
-            src={`../../assets/signup.webp`}
+return (
+  <form onSubmit={submitHandler} autoComplete="off" className={styles.formLogin}>
+    <div className={styles.title}>
+      <h3>Sign Up</h3>
+    </div>
+    <div className={styles.formGroup}>
+      <div
+        className={
+          errors.firstName && touched.firstName
+            ? styles.unCompleted
+            : !errors.firstName && touched.firstName
+            ? styles.completed
+            : undefined
+        }
+      >
+        <div className={styles.formGroup}>
+          <label>First Name</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            name="firstName"
+            value={data.firstName}
+            placeholder="Type here . ."
+            onChange={changeHandler}
+            onFocus={focusHandler}
+            autoComplete="off"
           />
         </div>
-        <form
-          className={styles.formLogin}
-          onSubmit={submitHandler}
-          autoComplete="off"
-          style={{ marginLeft: "300px", width: "500px" }}
-        >
-          <h2
-            style={{
-              color: "rgb(200, 72, 225)",
-              fontSize: "45px",
-              marginLeft: "260px",
-            }}
-          >
-            Sign Up
-          </h2>
-    
-          <div>
-            <div
-              className={
-                errors.firstName && touched.firstName
-                  ? styles.unCompleted
-                  : !errors.firstName && touched.firstName
-                  ? styles.completed
-                  : undefined
-              }
-            >
-              <input
-                type="text"
-                name="firstName"
-                value={data.firstName}
-                placeholder="First Name"
-                onChange={changeHandler}
-                onFocus={focusHandler}
-                autoComplete="off"
-              />
-            </div>
-            {errors.firstName && touched.firstName && (
-              <span className={styles.error}>{errors.firstName}</span>
-            )}
-          </div>
-    
-          <div>
-            <div
-              className={
-                errors.lastName && touched.lastName
-                  ? styles.unCompleted
-                  : !errors.lastName && touched.lastName
-                  ? styles.completed
-                  : undefined
-              }
-            >
-              <input
-                type="text"
-                name="lastName"
-                value={data.lastName}
-                placeholder="Last Name"
-                onChange={changeHandler}
-                onFocus={focusHandler}
-                autoComplete="off"
-              />
-            </div>
-            {errors.lastName && touched.lastName && (
-              <span className={styles.error}>{errors.lastName}</span>
-            )}
-          </div>
-    
-          <div>
-            <div
-              className={
-                errors.birthday && touched.birthday
-                  ? styles.unCompleted
-                  : !errors.birthday && touched.birthday
-                  ? styles.completed
-                  : undefined
-              }
-              style={{ position: "relative" }}
-            >
-              <DatePicker
-                selected={selectedDate}
-                onChange={handleDateChange}
-                placeholderText="Birthday"
-                autoComplete="off"
-                dateFormat="dd/MM/yyyy"
-              />
-            </div>
-            {errors.birthday && touched.birthday && (
-              <span className={styles.error}>{errors.birthday}</span>
-            )}
-          </div>
-    
-          <div>
-            <div
-              className={
-                errors.email && touched.email
-                  ? styles.unCompleted
-                  : !errors.email && touched.email
-                  ? styles.completed
-                  : undefined
-              }
-            >
-              <input
-                type="text"
-                name="email"
-                value={data.email}
-                placeholder="E-mail..."
-                onChange={changeHandler}
-                onFocus={focusHandler}
-                autoComplete="off"
-              />
-            </div>
-            {errors.email && touched.email && (
-              <span className={styles.error}>{errors.email}</span>
-            )}
-          </div>
-    
-          <div>
-            <div
-              className={
-                errors.password && touched.password
-                  ? styles.unCompleted
-                  : !errors.password && touched.password
-                  ? styles.completed
-                  : undefined
-              }
-            >
-              <input
-                type="password"
-                name="password"
-                value={data.password}
-                placeholder="Password"
-                onChange={changeHandler}
-                onFocus={focusHandler}
-                autoComplete="off"
-              />
-            </div>
-            {errors.password && touched.password && (
-             
-             <span className={styles.error}>{errors.password}</span>
-             )}
-             </div>
-             
-             <div>
-               <div
-                 className={
-                   errors.confirmPassword && touched.confirmPassword
-                     ? styles.unCompleted
-                     : !errors.confirmPassword && touched.confirmPassword
-                     ? styles.completed
-                     : undefined
-                 }
-               >
-                 <input
-                   type="password"
-                   name="confirmPassword"
-                   value={data.confirmPassword}
-                   placeholder="Confirm Password"
-                   onChange={changeHandler}
-                   onFocus={focusHandler}
-                   autoComplete="off"
-                 />
-               </div>
-               {errors.confirmPassword && touched.confirmPassword && (
-                 <span className={styles.error}>{errors.confirmPassword}</span>
-               )}
-             </div>
-             
-             <div>
-               <div className={styles.terms} style={{}}>
-                 {isChecked ? (
-                   <CheckBoxIcon style={{ color: "violet" }} />
-                 ) : (
-                   <input
-                     type="checkbox"
-                     name="IsAccepted"
-                     checked={isChecked}
-                     id="accept"
-                     onChange={handleCheckboxChange}
-                     onFocus={focusHandler}
-                     style={{ marginLeft: "240px" }}
-                   />
-                 )}
-                 <label htmlFor="accept" style={{ color: "#a29494", textAlign: "end" }}>
-                   I accept the terms of the privacy policy
-                 </label>
-               </div>
-             </div>
-             
-             <div>
-               <button type="submit">Create Account</button>
-               <span
-                 style={{
-                   color: "#a29494",
-                   textAlign: "center",
-                   display: "inline-block",
-                   width: "100%",
-                 }}
-               >
-                 <Link to="/login">Sign In</Link>
-               </span>
-             </div>
-             </form>
-             <ToastContainer />
-             </div>
-             );
-                             
+      </div>
+      {errors.firstName && touched.firstName && (
+        <span className={styles.error}>{errors.firstName}</span>
+      )}
+    </div>
 
+    <div className={styles.formGroup}>
+      <div
+        className={
+          errors.lastName && touched.lastName
+            ? styles.unCompleted
+            : !errors.lastName && touched.lastName
+            ? styles.completed
+            : undefined
+        }
+      >
+        <div className={styles.formGroup}>
+          <label>Last Name</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            name="lastName"
+            value={data.lastName}
+            placeholder="Last Name"
+            onChange={changeHandler}
+            onFocus={focusHandler}
+            autoComplete="off"
+          />
+        </div>
+      </div>
+      {errors.lastName && touched.lastName && (
+        <span className={styles.error}>{errors.lastName}</span>
+      )}
+    </div>
+   <div className={styles.FormGroup}>
+  <button type="submit" className={styles.next}>
+  
+    Next
+     <img src="/assets/next.svg" alt="Next" />
+  </button>
+</div>
+    <div className={styles.back}
+      style={{
+        marginTop: "84px",
+        marginLeft: "250px",
+        textAlign: "left",
+        font: "Lato",
+        fontSize: "22px",
+        fontWeight: "bold",
+      }}
+    > <img src="/assets/back.svg" alt="Back" />
+      <Link to="/Login">Back To Log In</Link>
+    </div>
 
+    <ToastContainer />
+  </form>
+);
 
-
-
-                }
-
+    }
 export default SignUp;
