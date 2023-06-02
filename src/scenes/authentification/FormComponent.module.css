@@ -14,7 +14,7 @@
 .unCompleted > input {
   border: 1px solid #ff0000 !important;
 }
-.formLogin > div span.error {
+.error {
   height: 10px;
   text-align: left;
   margin-top: 5px;
@@ -81,7 +81,7 @@ label {
 }
 
 .completed>input {
-  border: 1px solid rgb(178, 44, 205) !important;
+  border: 1px solid rgb(31, 44, 136) !important;
   position: relative;
 }
 
@@ -320,4 +320,46 @@ height: 19px;
   margin-right: 15.54px;
 width: 11px;
 height: 19px;
+}
+
+/* CSS pour le modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 100px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.modalContent h3 {
+  margin-top: 0;
+}
+
+.modalContent p {
+  margin-bottom: 10px;
+}
+
+.modalContent button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modalContent button:hover {
+  background-color: #2980b9;
 }

@@ -19,8 +19,7 @@ import Addresses from "./scenes/addresses";
 import ImageComponent from "./scenes/authentification/ImageComponent";
 import LoginForm from "./scenes/authentification/LoginForm";
 import AuthWrapper from "./components/authWrapper";
-
-
+import ForgetPassword from "./scenes/authentification/forgetPassword";
 
 
 function App() {
@@ -42,13 +41,15 @@ function App() {
             < Route path="/form" element={<LoginForm/>} />
             < Route path="/image" element={<ImageComponent/>} />
             < Route path="/login" element={<AuthWrapper> <LoginForm/></AuthWrapper>} />
-              <Route path="/signup" element={<AuthWrapper> <SignUp/></AuthWrapper>} />
+            <Route path="/signup" element={<AuthWrapper> <SignUp/></AuthWrapper>} />
+            
+            <Route path="/forgetPassword" element={<AuthWrapper><ForgetPassword/></AuthWrapper>} />
               <Route path="/" element={<DashboradWrapper ><Dashboard /></DashboradWrapper >} />
               <Route path="/password" element={<DashboradWrapper ><Password /></DashboradWrapper>} />
               <Route path="/addresses" element={<DashboradWrapper ><Addresses /></DashboradWrapper>} />
               <Route path="/faq" element={<DashboradWrapper ><FAQ /></DashboradWrapper>} />
               <Route path="/bar" element={<DashboradWrapper ><Bar /></DashboradWrapper>} />
-             
+           
             </Routes>
          
         
