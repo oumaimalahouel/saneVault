@@ -6,19 +6,19 @@ import { Link } from "react-router-dom";
 // Validate
 import { validate } from "./validate";
 // Styles
-
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 // Toast
 import { ToastContainer, toast } from "react-toastify";
 import { notify } from "./toast";
 //
-
 // Axios
 import axios from "axios";
 import Page1 from "./Page1";
 import Page2 from "./Page2";
 import Page3 from "./Page3";
 
+ 
 const SignUp = () => {
   const [data, setData] = useState({
     firstName: "",
@@ -53,7 +53,7 @@ console.log('hhhhh',data);
     if(pageNumber<3){
       setPageNumber(pageNumber+1);
     }if(pageNumber==3){
-         const urlApi = "http://localhost:5202/idp/auth/sign-up"; // Endpoint de l'API Swagger
+         const urlApi = "http://159.65.235.250:5443/idp/auth/sign-up"; // Endpoint de l'API Swagger
           const requestBody = {
             firstName: data.firstName,
             lastName: data.lastName,
@@ -64,12 +64,13 @@ console.log('hhhhh',data);
         axios
         .post(urlApi, requestBody)
         .then((response) => {
+          console.log(response)
           // Traitez la réponse de l'API en fonction de votre logique d'inscription
           if (response.status === 200) {
             notify("You signed up successfully", "success");
-            // redirect('/login')
+             navigate('/login');
           } else {
-            notify("Something went wrong!", "error");
+            notify(response.data.message||"Something went wrong!", "error");
           }
         })
         .catch((error) => {
@@ -78,7 +79,7 @@ console.log('hhhhh',data);
         });
     }
     // if (!Object.keys(errors).length) {
-    //   const urlApi = "http://localhost:5202/idp/auth/sign-up"; // Endpoint de l'API Swagger
+    //   const urlApi = "http://159.65.235.250:5443/idp/auth/sign-up"; // Endpoint de l'API Swagger
 
     //   const requestBody = {
     //     firstName: data.firstName,
@@ -107,7 +108,7 @@ console.log('hhhhh',data);
   //     // });
   //   }
    };
-
+let navigate = useNavigate();
   return (
     <form
       onSubmit={submitHandler}
@@ -127,14 +128,7 @@ console.log('hhhhh',data);
                             lastName={data.lastName} 
                             onChange={changeHandler}
                           /> }
-        {pageNumber == 2 &&<Page2 errors={errors}
-                            setErrors={setErrors}
-                            touched={touched}
-                            setTouched={setTouched}
-                            password={data.password} 
-                            confirmPassword={data.confirmPassword} 
-                            onChange={changeHandler}/> }
-        {pageNumber == 3 &&<Page3 errors={errors}
+{pageNumber == 2 &&<Page3 errors={errors}
                             setErrors={setErrors}
                             touched={touched}
                             setTouched={setTouched} 
@@ -142,6 +136,14 @@ console.log('hhhhh',data);
                             email={data.email} 
                             onChange={changeHandler}/> }
      
+        {pageNumber == 3 &&<Page2 errors={errors}
+                            setErrors={setErrors}
+                            touched={touched}
+                            setTouched={setTouched}
+                            password={data.password} 
+                            confirmPassword={data.confirmPassword} 
+                            onChange={changeHandler}/> }
+        
       <div className={styles.FormGroup}>
         <button type="submit" className={styles.next}>
           {pageNumber < 3 ? "Next" : "Finish"}

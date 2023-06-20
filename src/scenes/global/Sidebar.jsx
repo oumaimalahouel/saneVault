@@ -1,31 +1,17 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
-import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
-import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
-
-
-
+import FolderIcon from "@mui/icons-material/Folder";
+import AutoDeleteIcon from "@mui/icons-material/AutoDelete";
+import axios from "axios";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <MenuItem
       active={selected === title}
@@ -46,188 +32,342 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [folders, setFolders] = useState([]);
+  const accessToken = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    const fetchFolders = async () => {
+      try {
+        const response = await axios.get(
+          "http://159.65.235.250:5443/api/v1/folders/get-all",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        const data = response.data.resultData.map((folder) => ({
+          ...folder,
+          isOpen: false, // Ajouter une propriété isOpen à chaque dossier
+        }));
+        setFolders(data);
+      } catch (error) {
+        console.error("Error fetching folders:", error);
+      }
+    };
+    fetchFolders();
+  }, [accessToken]);
+
+  const renderFolder = (folder) => {
+    const folderStyle = {
+      backgroundColor: "#FFFFFF",
+      boxShadow: "0px 6px 20px #0000000D",
+      borderRadius: "10px",
+      gridTemplateColumns: "auto 1fr",
+      marginLeft: "32px",
+      width: "260px",
+      marginBottom: "20px",
+    };
+    if (folder.folderName === "(none)") {
+      return null; // Ne rien rendre si le nom est "(none)"
+    }
+    const handleFolderClick = (folderId) => {
+      const updatedFolders = folders.map((f) => {
+        if (f.id === folderId) {
+          return {
+            ...f,
+            isOpen: !f.isOpen, // Inverser la valeur de isOpen pour le dossier cliqué
+          };
+        }
+        return f;
+      });
+      setFolders(updatedFolders);
+    };
+
+    return (
+      <div style={folderStyle}>
+        <Box
+          key={folder.id}
+          display="flex"
+          alignItems="center"
+          flexDirection="row"
+          marginLeft="35px"
+          sx={{ marginBottom: "20px", cursor: "pointer" }}
+          onClick={() => handleFolderClick(folder.id)} // Gérer le clic sur le dossier parent
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <FolderIcon
+              sx={{
+                color: "#5547D2",
+                fontSize: "50px",
+                display: "flex",
+              }}
+            />
+            <div>
+              <Typography
+                style={{
+                  fontSize: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: "10px",
+                  marginLeft: "10px",
+                }}
+              >
+                {folder.folderName}
+              </Typography>
+            </div>
+          </div>
+        </Box>
+
+        {folder.isOpen && folder.childFolders && folder.childFolders.length > 0 && (
+          <Box padding="15px">
+            {folder.childFolders.map((childFolder) => (
+              <Box
+                key={childFolder.id}
+                display="flex"
+                flexDirection="column"
+                sx={{ cursor: "pointer", margin: "10px" }}
+              >
+                <div style={{ display: "flex", alignItems: "center", marginLeft: "60px" }}>
+                  <FolderIcon
+                    sx={{
+                      color: "#5547D2",
+                      marginRight: "8px",
+                      fontSize: "25px",
+                    }}
+                  />
+                  <Typography
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "",
+                      fontSize: "19px",
+                    }}
+                  >
+                    {childFolder.folderName}
+                  </Typography>
+                </div>
+              </Box>
+            ))}
+          </Box>
+        )}
+      </div>
+    );
+  };
 
   return (
-    <Box
-      sx={{
-      
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-      }}
-    >
-      <ProSidebar collapsed={isCollapsed}>
+    <Box sx={{}}>
+      <div
+        className="divvv"
+        style={{ backgroundColor: "#F7F7FE" }}
+        collapsed={isCollapsed}
+      >
         <Menu iconShape="square">
+          {/* <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+            <MenuOutlinedIcon />
+          </IconButton>*/}
           {/* LOGO AND MENU ICON */}
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-              color: colors.grey[900],
-            }}
-          >
-            {!isCollapsed && (
+          {!isCollapsed && (
+            <Box
+              mb="73px"
+              paddingLeft="30px"
+              paddingRight="30px"
+              background="#F7F7FE"
+              paddingTop="40px"
+              width="360px"
+            >
               <Box
                 display="flex"
-                justifyContent="space-between"
+                justifyContent="center"
                 alignItems="center"
-                ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[900]}>
-                  ADMINIS
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem>
-
-          {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../assets/user.jpg`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                  width="300px"
+                  height="50px"
+                  src={`../../assets/logo.svg`}
+                  //onClick={() => setIsCollapsed(!isCollapsed)}
                 />
               </Box>
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[900]}
-
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Oumaima
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}
-                sx={{ m: 2 }}>
-                 lahoueloumaima1@gmail.com
-                </Typography>
-              </Box>
+              <Box
+                borderTop="1px solid #e5e5e5"
+                marginTop="26px"
+                width="300px"
+                paddingRight="25px"
+              ></Box>
             </Box>
           )}
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+          {!isCollapsed && (
+            <Box
+              paddingLeft={isCollapsed ? undefined : "10%"}
+              style={{ height: "72px", width: "310px" }}
+            ><Link to="/">
+              <div
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  boxShadow: "0px 6px 20px #0000000D",
+                  borderRadius: "10px",
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img src="../../assets/allItems.svg" alt="All Items" />
+                  <span
+                    style={{
+                      marginLeft: "19px",
+                      fontSize: "21px",
+                      fontFamily: "",
+                      fontWeight: "bold",
+                      textDecoration:"none"
+                    }}
+                  >
+                    All items
+                  </span>
+                </div>
+                
+              </div></Link>
+            </Box>
+          )}
 
-            <Typography
-              variant="h6"
-              color={colors.grey[700]}
-              sx={{ m: "15px 0 5px 20px" }}
+          {/* Folders */}
+          {!isCollapsed && (
+            <Box
+              paddingLeft={isCollapsed ? undefined : "10%"}
+              style={{ height: "72px", width: "300px" }}
             >
-              Data
-            </Typography>
-            <Item
-              title="Passwords"
-              to="/Password"
-              icon={<VpnKeyOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Addresses"
-              to="/addresses"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Bank accounts"
-              to="/invoices"
-              icon={<AccountBalanceOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Payment cards"
-              to="/invoices"
-              icon={<PaymentOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+              <div
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  boxShadow: "0px 6px 20px #0000000D",
+                  borderRadius: "10px",
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr",
+                  alignItems: "center",
+                   marginTop:"60px"
+                }}
+              >
+                <FolderIcon
+                  sx={{
+                    color: "#5547D2",
+                    fontSize: "50px",
+                    display: "flex",
+                    marginLeft: "20px",
+                   
+                  }}
+                />
+                <Typography
+                  style={{
+                    marginLeft: "20px",
+                    fontSize: "21px",
+                    fontFamily: "",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Folders
+                </Typography>
+              </div>
+            </Box>
+          )}
 
-            <Typography
-              variant="h6"
-              color={colors.grey[700]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Pages
-            </Typography>
-            <Item
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            
-            <Item
-              title="FAQ Page"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[700]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Pie Chart"
-              to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+          {/* Folders Menu */}
+          <Box>
+            {folders.length > 0 && (
+              <Box>
+                {folders.map((folder) => (
+                  <Box key={folder.id}>{renderFolder(folder)}</Box>
+                ))}
+              </Box>
+            )}
           </Box>
+
+          {/* Recently Deleted */}
+          {!isCollapsed && (
+            <Box
+              paddingLeft={isCollapsed ? undefined : "10%"}
+              style={{ width: "300px", marginBottom: "20px" }}
+            >
+              <Link to="/redeleted">
+                <div
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    boxShadow: "0px 6px 20px #0000000D",
+                    borderRadius: "10px",
+                    display: "grid",
+                    gridTemplateColumns: "auto 1fr",
+                    alignItems: "center",
+                    paddingLeft: "25px",
+                    paddingTop: "19.4px",
+                    paddingBottom: "19.4px",
+                  }}
+                >
+                  <AutoDeleteIcon style={{ fontSize: "2.5rem" }} />
+                  <span
+                    style={{
+                      paddingRight: "10px",
+                      marginLeft: "19px",
+                      fontSize: "21px",
+                      fontFamily: "",
+                      fontWeight: "bold",
+                      color: "#606060",
+                    }}
+                  >
+                    Recently Deleted
+                  </span>
+                </div>
+              </Link>
+            </Box>
+          )}
+
+          {/* Logout */}
+          {!isCollapsed && (
+            <Box
+              paddingLeft={isCollapsed ? undefined : "10%"}
+              style={{ height: "72px", width: "300px", paddingBottom: "20px" }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  boxShadow: "0px 6px 20px #0000000D",
+                  borderRadius: "10px",
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr",
+                  alignItems: "center",
+                }}
+              >
+                <Link to="/login">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      paddingLeft: "25px",
+                      paddingTop: "19.4px",
+                      paddingBottom: "19.4px",
+                    }}
+                  >
+                    <img src="../../assets/logOut.svg" alt="logout" />
+                    <span
+                      style={{
+                        paddingRight: "10px",
+                        marginLeft: "19px",
+                        fontSize: "21px",
+                        fontFamily: "",
+                        fontWeight: "bold",
+                        color: "#606060",
+                      }}
+                    >
+                      Log Out
+                    </span>
+                  </div>
+                </Link>
+              </div>
+            </Box>
+          )}
         </Menu>
-      </ProSidebar>
+      </div>
     </Box>
   );
 };

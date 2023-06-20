@@ -6,6 +6,13 @@ import axios from "axios";
 import { notify } from "./toast";
 import { Typography } from "@mui/material";
 import styles from "./FormComponent.module.css";
+import VerificationEmail from "./verificationEmail";
+import { useNavigate } from "react-router-dom";
+import AddItem from "../Password/addItem"; 
+
+
+
+
 
 
 const LoginForm = () => {
@@ -13,38 +20,10 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-
+ 
   const [touched, setTouched] = useState({});
+  let navigate = useNavigate();
 
-  const checkData = (obj) => {
-    const { email, password } = obj;
-    const urlApi = "http://159.65.235.250:5443/idp/auth/sign-in"; // Endpoint de l'API Swagger
-
-    const requestBody = {
-      email: email,
-      password: password,
-    };
-
-    axios
-      .post(urlApi, requestBody)
-      .then((response) => {
-        // Traitez la réponse de l'API en fonction de votre logique d'authentification
-        if (response.data.success) {
-          const accessToken = response.data.resultData.accessToken;
-          const refreshToken = response.data.resultData.refreshToken;
-          // Stockez accessToken et refreshToken dans la session
-          sessionStorage.setItem("accessToken", accessToken);
-          sessionStorage.setItem("refreshToken", refreshToken);
-          notify("You logged in to your account successfully", "success");
-        } else {
-          notify("Your password or email is wrong", "error");
-        }
-      })
-      .catch((error) => {
-        // Gérez les erreurs de l'API
-        notify("Something went wrong!", "error");
-      });
-  };
 
   const changeHandler = (event) => {
     if (event.target.name === "IsAccepted") {
@@ -61,14 +40,70 @@ const LoginForm = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    checkData(data);
-  };
+    // envoyer la requette login et suivant le retour , on fait le controle
+    const { email, password } = data;
+    const urlApi = "http://159.65.235.250:5443/idp/auth/sign-in"; // Endpoint de l'API Swagger
 
+    const requestBody = {
+      email: email,
+      password: password,
+    };
+    const accessToken = localStorage.getItem("accessToken");
+    console.log(accessToken);
+    axios
+    .post(urlApi, requestBody)
+    .then((response) => {
+      // Traitez la réponse de l'API en fonction de votre logique d'authentification
+      if (response?.data?.success) {
+        // on va tester si le compte est vérifié ou pas
+        if (response?.data?.resultData?.verifiedUser) {
+          notify("You logged in to your account successfully", "success");
+          navigate("/");
+          localStorage.setItem("accessToken", response?.data?.resultData?.accessToken);
+          
+
+          // Appel à handleLogin pour transmettre l'access token
+          handleLogin();
+        } else {
+          setShowVerificationForm(true);
+        }
+      } else {
+        notify("Your password or email is wrong", "error");
+      }
+    })
+    .catch((error) => {
+      // Gérez les erreurs de l'API
+      notify("Something went wrong!", "error");
+    });
+};
+  
+    //  try { 
+    //   const verification = await axios.post(
+    //     "http://159.65.235.250:5443/idp/auth/verify-email",
+    //     {
+    //       email,
+    //       oTcode: verificationCode,
+    //     }
+    //   );
+    //   if (verification.data.success) {
+    //   }
+    // } catch (error) {
+    //   setIsIncorrectCodeModalOpen(true);
+    //   console.log(
+    //     "Une erreur s'est produite lors de la vérification du code :",
+    //     error
+    //   );
+    // }
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  const [showVerificationForm, setShowVerificationForm] = useState(false);
 
   return (
+    <div>
+    {showVerificationForm ? (
+      <VerificationEmail />
+    ) : (
     <form onSubmit={submitHandler} autoComplete="off" className={styles.formLogin}>
       <div className={styles.title}>
         <h3>LOG IN</h3>
@@ -124,6 +159,9 @@ const LoginForm = () => {
 
       <ToastContainer />
     </form>
+    )}
+    </div>
+ 
   );
 };
 

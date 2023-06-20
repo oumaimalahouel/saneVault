@@ -229,13 +229,7 @@ label {
 
 }
 
-.togglePassword,
-img {
 
-  width: 32px;
-  height: 27px;
-  opacity: 1;
-}
 
 .formLogin input[type="text"]:focus,
 .formLogin input[type="email"]:focus,
@@ -284,7 +278,7 @@ a {
   top: 585px;
   left: 1594px;
   width: 158px;
-  height: 26px;
+
   /* UI Properties */
   text-align: left;
   font: "Lato"," Nunito Sans";

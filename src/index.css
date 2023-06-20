@@ -10,7 +10,7 @@ body,
 .content{
   height: 100%;
   width: 100%;
-  font-family: "Lato","Nunito Sans" ;
+  font:""
 }
 .app{
   display: flex;
@@ -35,10 +35,10 @@ body,
   box-sizing: border-box;
 }
 :root {
-  --main-color: #4ad0cc;
-  --secondary-color: #d7e3ef;
-  --box-shadow: 0 0 7px 0 var(--secondary-color);
-  --main-color-hover: #52b1ae;
+  --main-color: #5547D2;
+  --secondary-color: #0956a3;
+
+  --main-color-hover: #5547D2;
 }
 body {
   font-size: 14px;

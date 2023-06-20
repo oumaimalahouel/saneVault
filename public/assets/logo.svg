@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="198.408" height="47.734" viewBox="0 0 198.408 47.734">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_21" data-name="Rectangle 21" width="198.408" height="47.734" fill="#5547d2"/>
+    </clipPath>
+  </defs>
+  <g id="Groupe_10" data-name="Groupe 10" transform="translate(6 0)">
+    <text id="SaneVault" transform="translate(52.937 35.482)" font-size="29" font-family="NunitoSans-Bold, Nunito Sans" font-weight="700"><tspan x="0" y="0">Sane</tspan><tspan y="0" letter-spacing="-0.06em">V</tspan><tspan y="0">au</tspan><tspan y="0" letter-spacing="-0.012em">l</tspan><tspan y="0">t</tspan></text>
+    <path id="Tracé_36" data-name="Tracé 36" d="M250.826,11.971l8.924,5.591,10.106-5.7V.683Z" transform="translate(-234.603 -0.623)" fill="#5547d2"/>
+    <path id="Tracé_37" data-name="Tracé 37" d="M364.983,156.136l8.915-5.272v21.826l-8.915-5.133Z" transform="translate(-338.646 -137.498)" fill="#5547d2"/>
+    <path id="Tracé_38" data-name="Tracé 38" d="M241.909,360.585v10.664l18.858-11.015-8.946-5.269Z" transform="translate(-226.476 -323.516)" fill="#5547d2"/>
+    <path id="Tracé_39" data-name="Tracé 39" d="M0,0V11.181l10.106,5.7,8.923-5.591Z" transform="translate(-6)" fill="#5547d2"/>
+    <path id="Tracé_40" data-name="Tracé 40" d="M0,172.009l8.915-5.133V155.454L0,150.182Z" transform="translate(-6 -136.877)" fill="#5547d2"/>
+    <path id="Tracé_41" data-name="Tracé 41" d="M10.856,359.552l18.858,11.015V359.9l-9.912-5.62Z" transform="translate(-15.894 -322.894)" fill="#5547d2"/>
+    <g id="Groupe_9" data-name="Groupe 9" transform="translate(-6 0)">
+      <g id="Groupe_8" data-name="Groupe 8" clip-path="url(#clip-path)">
+        <path id="Tracé_42" data-name="Tracé 42" d="M227.083,188.346a.521.521,0,0,1-.52.52.521.521,0,0,1-.451-.777v-2.815h.9v2.813a.517.517,0,0,1,.07.259" transform="translate(-206.015 -168.859)" fill="#5547d2"/>
+        <path id="Tracé_43" data-name="Tracé 43" d="M252.377,201.149a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,252.377,201.149Z" transform="translate(-228.029 -182.334)" fill="#5547d2"/>
+        <path id="Tracé_44" data-name="Tracé 44" d="M194.051,232.267a4.215,4.215,0,1,1-4.215-4.215,4.215,4.215,0,0,1,4.215,4.215" transform="translate(-169.174 -207.847)" fill="#5547d2"/>
+        <rect id="Rectangle_20" data-name="Rectangle 20" width="0.903" height="3.417" transform="translate(20.096 12.998)" fill="#5547d2"/>
+        <path id="Tracé_45" data-name="Tracé 45" d="M289.929,236.3a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,289.929,236.3Z" transform="translate(-262.254 -214.368)" fill="#5547d2"/>
+        <path id="Tracé_46" data-name="Tracé 46" d="M294.41,283.743a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,294.41,283.743Z" transform="translate(-266.338 -257.61)" fill="#5547d2"/>
+        <path id="Tracé_47" data-name="Tracé 47" d="M267.2,320.728a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,267.2,320.728Z" transform="translate(-241.539 -291.318)" fill="#5547d2"/>
+        <path id="Tracé_48" data-name="Tracé 48" d="M219.855,340.845a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,219.855,340.845Z" transform="translate(-198.388 -309.653)" fill="#5547d2"/>
+        <path id="Tracé_49" data-name="Tracé 49" d="M171.813,318.279a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,171.813,318.279Z" transform="translate(-154.603 -289.086)" fill="#5547d2"/>
+        <path id="Tracé_50" data-name="Tracé 50" d="M150.949,283.743a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,150.949,283.743Z" transform="translate(-135.587 -257.61)" fill="#5547d2"/>
+        <path id="Tracé_51" data-name="Tracé 51" d="M158.745,234.974a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,158.745,234.974Z" transform="translate(-142.693 -213.162)" fill="#5547d2"/>
+        <path id="Tracé_52" data-name="Tracé 52" d="M190.6,201.149a1.09,1.09,0,1,1-1.09-1.09A1.09,1.09,0,0,1,190.6,201.149Z" transform="translate(-171.73 -182.334)" fill="#5547d2"/>
+        <path id="Tracé_53" data-name="Tracé 53" d="M125.7,159.214,115.29,153.2V141.18l10.412-6.011,10.412,6.011V153.2Zm-9.171-6.727,9.171,5.3,9.171-5.3V141.9l-9.171-5.3-9.171,5.3Z" transform="translate(-105.075 -123.193)" fill="#5547d2"/>
+      </g>
+    </g>
+  </g>
+</svg>

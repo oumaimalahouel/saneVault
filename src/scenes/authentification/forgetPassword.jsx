@@ -41,53 +41,32 @@ function ForgetPassword() {
 
   const handleVerificationCodeSubmit = async (e) => {
     e.preventDefault();
-
-   //1
-    try { 
-      const verification = await axios.post(
-        "http://159.65.235.250:5443/idp/auth/verify-email",
+    //2
+    try {
+      const response = await axios.post(
+        "http://159.65.235.250:5443/idp/auth/verify-reset-password-code",
         {
           email,
-          oTcode: verificationCode,
+          resetPasswordcode: verificationCode,
         }
       );
-      if (verification.data.success) {
-       //2
-        try { 
-          const response = await axios.post(
-            "http://159.65.235.250:5443/idp/auth/verify-reset-password-code",
+
+      // Vérifier si le code est correct
+      const { resultData } = response.data;
+      if (response.data.success) {
+        // Récupérer emailConfirmationToken de resultData
+        const { emailConfirmationToken } = resultData;
+        setConfirmationToken(emailConfirmationToken);
+        //3
+        try {
+          const responseInitiatePassword = await axios.post(
+            "http://159.65.235.250:5443/idp/auth/initiate-password-reset",
             {
               email,
-              resetPasswordcode: verificationCode,
             }
           );
-
-          // Vérifier si le code est correct
-          const { resultData } = response.data;
-          if (response.data.success) {
-            // Récupérer emailConfirmationToken de resultData
-            const { emailConfirmationToken } = resultData;
-            setConfirmationToken(emailConfirmationToken);
-            //3
-            try {
-                const responseInitiatePassword = await axios.post(
-                    "http://159.65.235.250:5443/idp/auth/initiate-password-reset",
-                    {
-                      email,
-                    }
-                  );
-                  if(responseInitiatePassword.data.success){
-                    setStep(3);
-                  }
-        
-            } catch (error) {
-                setIsIncorrectCodeModalOpen(true);
-                console.log(
-                    "Une erreur s'est produite lors de la vérification du code :",
-                    error
-                );
-            }
-            // Passer à l'étape suivante
+          if (responseInitiatePassword.data.success) {
+            setStep(3);
           }
         } catch (error) {
           setIsIncorrectCodeModalOpen(true);
@@ -96,6 +75,7 @@ function ForgetPassword() {
             error
           );
         }
+        // Passer à l'étape suivante
       }
     } catch (error) {
       setIsIncorrectCodeModalOpen(true);
@@ -104,7 +84,6 @@ function ForgetPassword() {
         error
       );
     }
-
     //end here
   };
 
@@ -124,8 +103,8 @@ function ForgetPassword() {
       // Vérifier si la réinitialisation du mot de passe a réussi
       if (response.data.success) {
         notify(response.data.message, "success");
-        navigate('/login');
-    } else {
+        navigate("/login");
+      } else {
         // La réinitialisation du mot de passe a échoué
         console.log(
           "La réinitialisation du mot de passe a échoué :",
