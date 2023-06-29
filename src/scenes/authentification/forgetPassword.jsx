@@ -4,6 +4,8 @@ import axios from "axios";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { notify } from "./toast";
 import { useNavigate } from "react-router-dom";
+import { validate } from "./validate";
+
 
 function ForgetPassword() {
   const [email, setEmail] = useState("");
@@ -14,6 +16,7 @@ function ForgetPassword() {
     useState(false);
   const [confirmationToken, setConfirmationToken] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState("");
+const [errors, setErrors] = useState({});
 
   let navigate = useNavigate();
 
@@ -171,6 +174,7 @@ function ForgetPassword() {
               onChange={(e) => setNewPassword(e.target.value)}
             />
           </div>
+          
           <div className={styles.formGroup}>
             <label>Confirm Password</label>
             <input

@@ -14,16 +14,18 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 import { CardActions, IconButton } from "@mui/material";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import InputAdornment from "@mui/material/InputAdornment";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Topbar from "../global/Topbar";
+import { useSelector, useDispatch } from "react-redux";
 
+import { CardItem } from "./itemCard";
 const Index = () => {
-  const [items, setItems] = useState([]);
+  const dispatch = useDispatch()
   const [selectedFolders, setSelectedFolders] = useState([]);
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState({});
@@ -31,7 +33,10 @@ const Index = () => {
   const accessToken = localStorage.getItem("accessToken");
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
+  const selectedItm = useSelector((state) => state.itemReducer.result);
+  let AllFolders = useSelector((state) => state.foldersReducer.result);
+  AllFolders=AllFolders??[]
+  console.log("selectedItm", AllFolders);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,8 +56,11 @@ const Index = () => {
           if (b.folderName === "(none)") return -1;
           return 0;
         });
-
-        setItems(responseData);
+        dispatch({
+          type:'HIERARCHY',
+          payload:responseData
+        })
+        dispatchEvent()
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -76,7 +84,10 @@ const Index = () => {
 
       if (data.success) {
         // Item deleted successfully, update the state to remove the item
-        setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+        dispatch({
+          type:'HIERARCHY',
+          payload:AllFolders.filter((item) => item.id !== itemId)
+        })
         handleCloseConfirmationModal();
         window.location.reload();
       }
@@ -101,91 +112,68 @@ const Index = () => {
 
   const renderFolder = (folder) => {
     const showChildFolders = isFolderSelected(folder);
+
     return (
-      <div key={folder.id} style={{ padding: "30px" }}>
-        <Typography
-          variant="h6"
-          style={{
-            marginBottom: "8px",
-            marginTop: "5px",
-            paddingRight: "24px",
-            height: "38px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            fontSize: "18px",
-            fontFamily: "'Open Sans',sans-serif",
-            color: "#4D5E6E",
-            fontWeight: "600",
-            lineHeight: "36px",
-          }}
-        >
-          <span>{folder.folderName}</span>
-          <span style={{ marginLeft: "8px" }}>({folder.items.length})</span>
-          <button
-            onClick={() => handleFolderToggle(folder)}
+      <>
+        <div key={folder.id} style={{ padding: "30px" }}>
+          <Typography
+            variant="h6"
             style={{
-              marginLeft: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
+              marginBottom: "8px",
+              marginTop: "5px",
+              paddingRight: "24px",
+              height: "38px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              fontSize: "18px",
+              fontFamily: "'Open Sans',sans-serif",
+              color: "#4D5E6E",
+              fontWeight: "600",
+              lineHeight: "36px",
             }}
           >
-            {showChildFolders ? <FaAngleUp color="#5547D2" /> : <FaAngleDown />}
-          </button>
-        </Typography>
-        {showChildFolders && <Divider style={{ margin: "20px 20px" }} />}
-        {showChildFolders && folder.items.length > 0 && (
-          <Grid container spacing={2}>
-            {folder.items.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
-                <Card
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardContent style={{ flex: "1 0 auto" }}>
-                    <Typography>
-                      {item.folderName === "(none)" && (
-                        <span style={{ textDecoration: "line-through" }}>
-                          {item.websiteName}
-                        </span>
-                      )}
-                      {item.folderName !== "(none)" && (
-                        <span>{item.websiteName}</span>
-                      )}
-                      
-                    </Typography>
-                  </CardContent>
-                  <CardActions style={{ justifyContent: "flex-end" }}>
-                    <IconButton
-                      aria-label="settings"
-                      size="small"
-                      onClick={() => openModal(item.id)}
-                    >
-                      <SettingsIcon />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      size="small"
-                      onClick={() => handleOpenConfirmationModal(item.id)}
-                    >
-                      <DeleteOutlineIcon />
-                    </IconButton>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid> )}
+            <span>{folder.folderName}</span>
+            <span style={{ marginLeft: "8px" }}>({folder.items.length})</span>
+            <button
+              onClick={() => handleFolderToggle(folder)}
+              style={{
+                marginLeft: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "20px",
+              }}
+            >
+              {showChildFolders ? (
+                <FaAngleUp color="#5547D2" />
+              ) : (
+                <FaAngleDown />
+              )}
+            </button>
+          </Typography>
+          {showChildFolders && <Divider style={{ margin: "10px 10px" }} />}
+          {showChildFolders && folder.items.length > 0 && (
+            <Grid container spacing={3}>
+              {folder.items.map((item) => (
+                <Grid item key={item.id} xs={12} sm={6} md={4} lg={2.5}>
+                  <CardItem
+                    item={item}
+                    openModal={openModal}
+                    handleOpenConfirmationModal={handleOpenConfirmationModal}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
           {folder.childFolders && folder.childFolders.length > 0 && (
             <div style={{ marginLeft: "20px" }}>
-              {folder.childFolders.map((childFolder) => renderFolder(childFolder))}
+              {folder.childFolders.map((childFolder) =>
+                renderFolder(childFolder)
+              )}
             </div>
           )}
-       
-      </div>
+        </div>
+      </>
     );
   };
 
@@ -236,15 +224,16 @@ const Index = () => {
       );
 
       const updatedItem = response.data.resultData;
-      setItems((prevItems) =>
-        prevItems.map((item) => {
+      
+      dispatch({
+        type:'HIERARCHY',
+        payload:AllFolders.map((item) => {
           if (updatedItem && item.id === updatedItem.id) {
             return updatedItem; // Replace the item with the updated item
           }
           return item; // Keep the other items unchanged
         })
-      );
-
+      })
       handleClose();
     } catch (error) {
       console.error("Error editing item:", error);
@@ -391,7 +380,7 @@ const Index = () => {
                 gutterBottom
               ></Typography>
               <Select
-                value={modalData.folderId || ""}
+                value={modalData.folderId}
                 style={{
                   backgroundColor: "#f0f0f0",
                   color: "white",
@@ -402,7 +391,7 @@ const Index = () => {
                 name="folderId"
                 onChange={handleChange}
               >
-                {items.map((folder) => (
+                {AllFolders.map((folder) => (
                   <MenuItem key={folder.id} value={folder.id}>
                     {folder.folderName}
                   </MenuItem>
@@ -457,7 +446,7 @@ const Index = () => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <Card sx={{ minWidth: 275 }}>
+          <Card sx={{ minWidth: "500px", minHeight: "300px" }}>
             <CardContent>
               <Typography
                 variant="h6"
@@ -485,13 +474,32 @@ const Index = () => {
         </div>
       </Modal>
       <div>
-        
-      <div style={{ position: "fixed", bottom: "30px", right: "30px", zIndex: "1000" }}>
-        <AddItem />
-      </div>
-      <div style={{ marginTop: "80px" }}>
-        {items.map((folder) => renderFolder(folder))}
-      </div>
+        <div
+          style={{
+            position: "fixed",
+            bottom: "30px",
+            right: "30px",
+            zIndex: "1000",
+          }}
+        >
+          <AddItem />
+        </div>
+        <div style={{ marginTop: "50px" }}>
+          {selectedItm ? (
+            <div style={{ paddingLeft: "30px" }}><Grid container spacing={3}>
+              <Grid xs={12} sm={6} md={4} lg={2.5}>
+                <CardItem
+                  item={selectedItm}
+                  openModal={openModal}
+                  handleOpenConfirmationModal={handleOpenConfirmationModal}
+                />
+              </Grid>
+            </Grid>
+            </div>
+          ) : (
+            AllFolders.map((folder) => renderFolder(folder))
+          )}
+        </div>
       </div>
     </div>
   );

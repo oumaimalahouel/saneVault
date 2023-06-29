@@ -14,37 +14,41 @@ import { notify } from "./toast";
 
 // Axios
 import axios from "axios";
-
 const Page2 = (props) => {
-  const { password,confirmPassword,onChange, errors,
+  const {
+    password,
+    confirmPassword,
+    onChange,
+    errors,
     setErrors,
     touched,
-    setTouched, } = props
+    setTouched,
+  } = props;
 
-    useEffect(() => {
-      setErrors(validate("Page2"));
-    }, [touched]);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-
+  useEffect(() => {
+    setErrors(validate({ ...props, type: 'signUp' }));
+  }, [touched]);
 
   const focusHandler = (event) => {
     setTouched({ ...touched, [event.target.name]: true });
+    setErrors(validate({ ...props, [event.target.name]: event.target.value }));
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    
-      };
-
-      
+    const formErrors = validate(props, 'signUp');
+    setErrors(formErrors);
+    setIsFormValid(Object.keys(formErrors).length === 0);
+    if (Object.keys(formErrors).length === 0) {
+      // Soumettre le formulaire ou effectuer d'autres actions
+      // ...
+    }
+  };
 
   return (
-    <form
-      
-      onSubmit={submitHandler}
-      autoComplete="off"
-    >
-      
+    <form onSubmit={submitHandler} autoComplete="off">
       <div className={styles.formGroup}>
         <div
           className={
@@ -105,10 +109,16 @@ const Page2 = (props) => {
         )}
       </div>
 
-     
+      {isFormValid && (
+        <button type="submit">Submit</button>
+      )}
+
       <ToastContainer />
     </form>
   );
 };
 
 export default Page2;
+
+
+

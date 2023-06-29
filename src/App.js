@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route,Navigate, } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 
@@ -22,35 +22,28 @@ import AuthWrapper from "./components/authWrapper";
 import ForgetPassword from "./scenes/authentification/forgetPassword";
 import VerificationEmail from "./scenes/authentification/verificationEmail";
 import ReDelete from "./scenes/global/reDelete";
-
+import BlockNavigate from './scenes/authentification/blockNavigate'
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-
+  const accessToken=localStorage.getItem('accessToken')
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-       
-         
-        
-        
-          
-          
-            
-            <Routes>
+           <Routes>
             < Route path="/form" element={<LoginForm/>} />
             < Route path="/image" element={<ImageComponent/>} />
-            < Route path="/login" element={<AuthWrapper> <LoginForm/></AuthWrapper>} />
-            <Route path="/signup" element={<AuthWrapper> <SignUp/></AuthWrapper>} />
-            <Route path="/verificationEmail" element={<AuthWrapper> <VerificationEmail/></AuthWrapper>} />
-            <Route path="/forgetPassword" element={<AuthWrapper><ForgetPassword/></AuthWrapper>} />
-              <Route path="/" element={<DashboradWrapper ><Index /></DashboradWrapper >} />
-              <Route path="/password" element={<DashboradWrapper ><Dashboard /></DashboradWrapper>} />
-              <Route path="/addresses" element={<DashboradWrapper ><Addresses /></DashboradWrapper>} />
-              <Route path="/faq" element={<DashboradWrapper ><FAQ /></DashboradWrapper>} />
-              <Route path="/bar" element={<DashboradWrapper ><Bar /></DashboradWrapper>} />
-              <Route path="/reDeleted" element={<DashboradWrapper ><ReDelete /></DashboradWrapper>} />
+            < Route path="/login" element={<BlockNavigate><AuthWrapper> <LoginForm/></AuthWrapper></BlockNavigate>} />
+            <Route path="/signup" element={<BlockNavigate><AuthWrapper> <SignUp/></AuthWrapper></BlockNavigate>} />
+            <Route path="/verificationEmail" element={<BlockNavigate><AuthWrapper> <VerificationEmail/></AuthWrapper></BlockNavigate>} />
+            <Route path="/forgetPassword" element={<BlockNavigate><AuthWrapper><ForgetPassword/></AuthWrapper></BlockNavigate>} />
+              <Route path="/" element={!accessToken?<Navigate replace to="/login" />:<DashboradWrapper ><Index /></DashboradWrapper >} />
+              <Route path="/password" element={!accessToken?<Navigate replace to="/login" />:<DashboradWrapper ><Dashboard /></DashboradWrapper>} />
+              <Route path="/addresses" element={!accessToken?<Navigate replace to="/login" />:<DashboradWrapper ><Addresses /></DashboradWrapper>} />
+              <Route path="/faq" element={!accessToken?<Navigate replace to="/login" />:<DashboradWrapper ><FAQ /></DashboradWrapper>} />
+              <Route path="/bar" element={!accessToken?<Navigate replace to="/login" />:<DashboradWrapper ><Bar /></DashboradWrapper>} />
+              <Route path="/reDeleted" element={!accessToken?<Navigate replace to="/login" />:<DashboradWrapper ><ReDelete /></DashboradWrapper>} />
             </Routes>
          
         

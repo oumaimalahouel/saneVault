@@ -143,4 +143,38 @@
   .checkbox-label input {
     margin-right: 8px;
   }
-  
+  .menupopup{
+    overflow: hidden;
+    position: absolute;
+    top: -22rem;
+    height: 620px;
+    overflow-y: scroll;
+    background-color: #fff;
+    width: 100%;
+    z-index: 991;
+    right: 0px;
+    margin-right: 4px;
+    max-height: calc(-83px + 100vh);
+    max-width: calc(-8px + 100vw);
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+}
+.itm{
+  width: 100%;
+  padding: 16px;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bold;
+}
+.subItm{
+    width: 100%;
+    padding: 16px;
+    cursor: pointer;
+    padding-left: 40px;
+}
+.itm:hover{
+background-color: rgb(249, 243, 243);
+}
+.subItm:hover{
+  background-color: rgb(249, 243, 243);
+  }

@@ -26,30 +26,28 @@ const Page1 = (props) => {
     setTouched,
   } = props;
 
+  const [isFormValid, setIsFormValid] = useState(false);
+
   useEffect(() => {
-    setErrors(validate("Page1"));
+    setErrors(validate({ ...props, type: 'signUp' }));
   }, [touched]);
 
   const focusHandler = (event) => {
     setTouched({ ...touched, [event.target.name]: true });
+    setErrors(validate({ ...props, [event.target.name]: event.target.value }));
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
+    const formErrors = validate(props, 'signUp');
+    setErrors(formErrors);
+    setIsFormValid(Object.keys(formErrors).length === 0);
   };
 
   return (
     <form onSubmit={submitHandler} autoComplete="off">
       <div className={styles.formGroup}>
-        <div
-          // className={
-          //   errors.firstName && touched.firstName
-          //     ? styles.unCompleted
-          //     : !errors.firstName && touched.firstName
-          //     ? styles.completed
-          //     : undefined
-          // }
-        >
+        <div>
           <div className={styles.formGroup}>
             <label>First Name</label>
           </div>
@@ -71,37 +69,34 @@ const Page1 = (props) => {
       </div>
 
       <div className={styles.formGroup}>
-        <div
-          className={
-            errors.lastName && touched.lastName
-              ? styles.unCompleted
-              : !errors.lastName && touched.lastName
-              ? styles.completed
-              : undefined
-          }
-        >
-          <div className={styles.formGroup}>
-            <label>Last Name</label>
-          </div>
-          <div>
-            <input
-              type="text"
-              name="lastName"
-              value={lastName}
-              placeholder="Last Name"
-              onChange={onChange}
-              onFocus={focusHandler}
-              autoComplete="off"
-            />
-          </div>
+        <div className={styles.formGroup}>
+          <label>Last Name</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            name="lastName"
+            value={lastName}
+            placeholder="Last Name"
+            onChange={onChange}
+            onFocus={focusHandler}
+            autoComplete="off"
+          />
         </div>
         {errors.lastName && touched.lastName && (
           <span className={styles.error}>{errors.lastName}</span>
         )}
       </div>
 
+      {isFormValid && (
+        <Link to="/page2">
+          <button>Next</button>
+        </Link>
+      )}
+
       <ToastContainer />
     </form>
   );
 };
+;
 export default Page1;

@@ -7,11 +7,11 @@ import { tokens } from "../../theme";
 import FolderIcon from "@mui/icons-material/Folder";
 import AutoDeleteIcon from "@mui/icons-material/AutoDelete";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   return (
     <MenuItem
       active={selected === title}
@@ -34,7 +34,8 @@ const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
   const [folders, setFolders] = useState([]);
   const accessToken = localStorage.getItem("accessToken");
-
+  const dispatch = useDispatch()
+  let AllFolders = useSelector((state) => state.foldersReducer.result);
   useEffect(() => {
     const fetchFolders = async () => {
       try {
@@ -59,7 +60,7 @@ const Sidebar = () => {
     fetchFolders();
   }, [accessToken]);
 
-  const renderFolder = (folder) => {
+  const renderFolder = (folder,dispatch) => {
     const folderStyle = {
       backgroundColor: "#FFFFFF",
       boxShadow: "0px 6px 20px #0000000D",
@@ -113,6 +114,28 @@ const Sidebar = () => {
                   marginTop: "10px",
                   marginLeft: "10px",
                 }}
+                onClick={()=>{
+                  const fetchFolders = async () => {
+                    try {
+                      const response = await axios.get(
+                        "http://159.65.235.250:5443/api/v1/items/get-by-folder/"+folder.id,
+                        {
+                          headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                          },
+                        }
+                      );
+                      const fetchedFolder=response.data.resultData?[response.data.resultData]:[]
+                      dispatch({
+                        type:'HIERARCHY',
+                        payload:[...fetchedFolder]
+                      })
+                    } catch (error) {
+                      console.error("Error fetching folders:", error);
+                    }
+                  }
+                  fetchFolders();
+                }}
               >
                 {folder.folderName}
               </Typography>
@@ -128,6 +151,10 @@ const Sidebar = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{ cursor: "pointer", margin: "10px" }}
+                onClick={()=>dispatch({
+                  type:'HIERARCHY',
+                  payload:[childFolder]
+                })}
               >
                 <div style={{ display: "flex", alignItems: "center", marginLeft: "60px" }}>
                   <FolderIcon
@@ -213,6 +240,29 @@ const Sidebar = () => {
                   gridTemplateColumns: "auto 1fr",
                   alignItems: "center",
                 }}
+                onClick={()=>{
+                    axios.get(
+                      "http://159.65.235.250:5443/api/v1/items/get-hierarchy",
+                      {
+                        headers: {
+                          Authorization: `Bearer ${accessToken}`,
+                        },
+                      }
+                    )
+                    .then(res=>{
+                      let responseData= res.data.resultData;
+                      // Tri des éléments avec le dossier "none" en dernier
+                    responseData.sort((a, b) => {
+                      if (a.folderName === "(none)") return 1;
+                      if (b.folderName === "(none)") return -1;
+                      return 0;
+                    });
+                    dispatch({
+                      type:'HIERARCHY',
+                      payload:responseData
+                    })
+                    })
+                }}
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img src="../../assets/allItems.svg" alt="All Items" />
@@ -278,7 +328,7 @@ const Sidebar = () => {
             {folders.length > 0 && (
               <Box>
                 {folders.map((folder) => (
-                  <Box key={folder.id}>{renderFolder(folder)}</Box>
+                  <Box key={folder.id}>{renderFolder(folder,dispatch)}</Box>
                 ))}
               </Box>
             )}
@@ -338,7 +388,7 @@ const Sidebar = () => {
                   alignItems: "center",
                 }}
               >
-                <Link to="/login">
+                <Link to="/login" onClick={()=>localStorage.setItem('accessToken','')}>
                   <div
                     style={{
                       display: "flex",

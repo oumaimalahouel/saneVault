@@ -3,19 +3,19 @@ import {
   Box,
   Typography,
   useTheme,
-
   Card,
   CardContent,
   Modal,
   TextField,
   Button,
   IconButton,
+  formControlClasses,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import AddIcon from "@mui/icons-material/Add";
 import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import { Tooltip } from "@mui/material";
-
+import { NestedSelect } from "./nestedSelect";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
@@ -34,8 +34,14 @@ const AddItem = () => {
     websiteURL: "",
     note: "",
     password: "",
-    folderId: "",
+    idItem: "",
   });
+  const [folderFormData, setFolderFormData] = useState({
+    folderName: "",
+    description: "",
+    parentFolderId: null,
+  });
+  const [folderVisibility, setfFolderVisibility] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -49,8 +55,6 @@ const AddItem = () => {
         );
         const responseData = response.data.resultData;
         setItems(responseData);
-    
-        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -58,21 +62,18 @@ const AddItem = () => {
 
     fetchData();
   }, []);
-
-  const addItem = (e) => {
+  const addItem = async (e) => {
     e.preventDefault();
-  
+
     try {
       const requestBody = {
         websiteName: formData.websiteName,
         websiteURL: formData.websiteURL,
         note: formData.note,
         password: formData.password,
-        folderId: formData.folderId !== "" ? formData.folderId : null, // Ajout de la vérification ici
-        folderName: formData.folderId !== "" ? formData.folderName : "(none)", // Ajout de la vérification ici
+        folderId: formData.idItem !== "" ? formData.idItem : null, // Ajout de la vérification ici
       };
-  
-      axios.post(
+      const asyncResult = await  axios.post(
         "http://159.65.235.250:5443/api/v1/items/add-item",
         requestBody,
         {
@@ -81,28 +82,26 @@ const AddItem = () => {
           },
         }
       );
-  
-      setItems([...items, requestBody]);
-      handleClose();
-      window.location.reload();
+      if(asyncResult.status==200 ){
+        setItems([...items, requestBody]);
+        handleClose();
+        window.location.reload();
+      }
+      else console.error("un ereeur est survenu");
     } catch (error) {
       console.error("Error adding item:", error);
     }
   };
-  
-  
 
   const FolderhandleChange = (e) => {
     setFolderFormData({ ...folderFormData, [e.target.name]: e.target.value });
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e, select = "") => {
+    select
+      ? setFormData({ ...formData, idItem: e })
+      : setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
-
-
- 
 
   const handleOpen = () => {
     setOpen(true);
@@ -134,29 +133,24 @@ const AddItem = () => {
     });
     setOpenAnotherModal(false);
   };
-  
-  const [folderFormData, setFolderFormData] = useState({
-    folderName: "",
-    description: "",
-    parentFolderId: null,
-  });
+
   const handleFolderChange = (event) => {
     setFolderFormData({
       ...folderFormData,
       parentFolderId: event.target.value,
     });
   };
-  
+
   const addFolder = async (e) => {
     e.preventDefault();
-  
+
     try {
       const requestBody = {
         folderName: folderFormData.folderName,
-      description: folderFormData.description,
-      parentFolderId: folderFormData.parentFolderId,
+        description: folderFormData.description,
+        parentFolderId: folderFormData.folderId,
       };
-  
+
       await axios.post(
         "http://159.65.235.250:5443/api/v1/folders/add-folder",
         requestBody,
@@ -166,15 +160,13 @@ const AddItem = () => {
           },
         }
       );
-  
+
       handleCloseAnotherModal();
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error("Error adding folder:", error);
     }
   };
-  
-  
   return (
     <Box m="85px">
       <Tooltip
@@ -277,76 +269,48 @@ const AddItem = () => {
             Folder Name
           </Typography>
           <TextField
-      label="Folder Name"
-      fullWidth
-      sx={{ mb: 2 }}
-      name="folderName"
-      value={folderFormData.folderName}
-      onChange={FolderhandleChange}
-    />
- <TextField
-      label="Description"
-      fullWidth
-      multiline
-      rows={4}
-      sx={{ mb: 2 }}
-      name="description"
-      value={folderFormData.description}
-      onChange={FolderhandleChange}
-    />
-          <Typography
-            variant="h6"
-            id="modal-description"
-            gutterBottom
-          ></Typography>
-       <Select
- value={folderFormData.parentFolderId}
-  onChange={handleChange}
-  style={{
-    backgroundColor: "#f0f0f0",
-    color: "black",
-    borderRadius: "4px",
-    width: "100%",
-    height: "50px",
-  }}
-  name="folderId"
-  
->
-  {items.map((folder) => (
-    <div key={folder.id}>
-      <MenuItem value={folder.id} style={{fontWeight:"bold", fontSize:"20px"}}>
-        {folder.folderName}
-      </MenuItem>
-      {folder.childFolders.length > 0 && (
-        <div style={{ marginLeft: "20px" }}>
-          {folder.childFolders.map((childFolder) => (
-            <MenuItem key={childFolder.id} value={childFolder.id}>
-              {childFolder.folderName}
-            </MenuItem>
-          ))}
-        </div>
-      )}
-    </div>
-  ))}
-</Select>
-
-
-
+            label="Folder Name"
+            fullWidth
+            sx={{ mb: 2 }}
+            name="folderName"
+            value={folderFormData.folderName}
+            onChange={FolderhandleChange}
+          />
+          <TextField
+            label="Description"
+            fullWidth
+            multiline
+            rows={4}
+            sx={{ mb: 2 }}
+            name="description"
+            value={folderFormData.description}
+            onChange={FolderhandleChange}
+          />
+          <NestedSelect
+            list={items}
+            value={folderFormData.folderId}
+            placeHolder={"Nom de Dossier"}
+            name={"folderName"}
+            onSelect={(v) =>
+              setFolderFormData({ ...folderFormData, folderId: v })
+            }
+          />
+          <Typography></Typography>
           {/* Autres éléments du formulaire */}
 
           <Box display="flex" justifyContent="flex-end" sx={{ p: 3 }}>
-      <Button
-        variant="contained"
-        onClick={handleCloseAnotherModal}
-        sx={{
-          marginRight: 2,
-          backgroundColor: "white",
-          color: "black",
-          fontSize: "20px",
-          fontWeight: "bold",
-          width: "200px",
-        }}
-      >
+            <Button
+              variant="contained"
+              onClick={handleCloseAnotherModal}
+              sx={{
+                marginRight: 2,
+                backgroundColor: "white",
+                color: "black",
+                fontSize: "20px",
+                fontWeight: "bold",
+                width: "200px",
+              }}
+            >
               Cancel
             </Button>
             <Button
@@ -367,25 +331,25 @@ const AddItem = () => {
         </Box>
       </Modal>
       {open && isHovered && (
-  <Box mt={5}>
-    <Tooltip
-      title={<span style={{ fontSize: "25px" }}>Add New Folder</span>}
-      placement="left"
-    >
-      <IconButton
-        onClick={handleOpenAnotherModal}
-        style={{
-          backgroundColor: "#5547D2",
-          color: "white",
-          width: "80px",
-          height: "80px",
-        }}
-      >
-        <CreateNewFolderOutlinedIcon style={{ fontSize: "40px" }} />
-      </IconButton>
-    </Tooltip>
-  </Box>
-)}
+        <Box mt={5}>
+          <Tooltip
+            title={<span style={{ fontSize: "25px" }}>Add New Folder</span>}
+            placement="left"
+          >
+            <IconButton
+              onClick={handleOpenAnotherModal}
+              style={{
+                backgroundColor: "#5547D2",
+                color: "white",
+                width: "80px",
+                height: "80px",
+              }}
+            >
+              <CreateNewFolderOutlinedIcon style={{ fontSize: "40px" }} />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )}
       <Modal
         open={open}
         onClose={handleClose}
@@ -438,7 +402,7 @@ const AddItem = () => {
             </Typography>
 
             <form onSubmit={addItem}>
-            <TextField
+              <TextField
                 label="Website Name"
                 fullWidth
                 sx={{ mb: 2 }}
@@ -454,8 +418,8 @@ const AddItem = () => {
                 value={formData.websiteURL}
                 onChange={handleChange}
               />
-              
-             <TextField
+
+              <TextField
                 label="Password"
                 fullWidth
                 sx={{ mb: 2 }}
@@ -463,7 +427,7 @@ const AddItem = () => {
                 value={formData.password}
                 onChange={handleChange}
               />
-             <TextField
+              <TextField
                 label="Notes"
                 fullWidth
                 multiline
@@ -474,33 +438,21 @@ const AddItem = () => {
                 onChange={handleChange}
               />
               <Typography
-            variant="h6"
-            id="modal-description"
-            gutterBottom
-          ></Typography>
-          <Select
-            value={formData.folderId}
-            style={{
-              backgroundColor: "#f0f0f0",
-              color: "Black",
-              borderRadius: "4px",
-              width: "100%",
-              height: "50px",
-            }}
-            name="folderId"
-            onChange={handleChange}
-          >
-            {items.map((folder) => (
-              <MenuItem key={folder.id} value={folder.id}>
-                {folder.folderName}
-              </MenuItem>
-              
-            ))}
-          </Select>
-              
+                variant="h6"
+                id="modal-description"
+                gutterBottom
+              ></Typography>
+              <NestedSelect
+                list={items}
+                value={formData.idItem}
+                placeHolder={"Nom de Dossier"}
+                name={"idItem"}
+                onSelect={(v) => handleChange(v, "select")}
+              />
+
               <Box display="flex" justifyContent="flex-end" sx={{ mt: 4 }}>
                 <Button
-                 type="submit"
+                  type="submit"
                   variant="contained"
                   onClick={handleClose}
                   sx={{
