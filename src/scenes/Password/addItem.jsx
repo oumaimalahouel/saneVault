@@ -27,6 +27,8 @@ const AddItem = () => {
 
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openErrMod,setOpenErrMod]=useState(false);
+  const [openErrModItm,setOpenErrModItm]=useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [openAnotherModal, setOpenAnotherModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -65,6 +67,13 @@ const AddItem = () => {
   const addItem = async (e) => {
     e.preventDefault();
 
+    if(!(formData.websiteName)||
+    !(formData.websiteURL)||
+    !(formData.note)||
+    !(formData.idItem)||
+    !(formData.password)) {
+      setOpenErrModItm(true);
+    } else{
     try {
       const requestBody = {
         websiteName: formData.websiteName,
@@ -73,7 +82,7 @@ const AddItem = () => {
         password: formData.password,
         folderId: formData.idItem !== "" ? formData.idItem : null, // Ajout de la vérification ici
       };
-      const asyncResult = await  axios.post(
+      const asyncResult = await axios.post(
         "http://159.65.235.250:5443/api/v1/items/add-item",
         requestBody,
         {
@@ -82,15 +91,17 @@ const AddItem = () => {
           },
         }
       );
-      if(asyncResult.status==200 ){
+      if (asyncResult.status == 200) {
         setItems([...items, requestBody]);
         handleClose();
         window.location.reload();
-      }
-      else console.error("un ereeur est survenu");
+      } else console.error("un ereeur est survenu");
     } catch (error) {
       console.error("Error adding item:", error);
     }
+    }
+
+
   };
 
   const FolderhandleChange = (e) => {
@@ -143,28 +154,33 @@ const AddItem = () => {
 
   const addFolder = async (e) => {
     e.preventDefault();
+    if (!(folderFormData.description)||
+    !(folderFormData.folderId)||
+    !(folderFormData.folderName)) {
+      setOpenErrMod(true);
+    } else {
+      try {
+        const requestBody = {
+          folderName: folderFormData.folderName,
+          description: folderFormData.description,
+          parentFolderId: folderFormData.folderId,
+        };
 
-    try {
-      const requestBody = {
-        folderName: folderFormData.folderName,
-        description: folderFormData.description,
-        parentFolderId: folderFormData.folderId,
-      };
+        await axios.post(
+          "http://159.65.235.250:5443/api/v1/folders/add-folder",
+          requestBody,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
-      await axios.post(
-        "http://159.65.235.250:5443/api/v1/folders/add-folder",
-        requestBody,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      handleCloseAnotherModal();
-      window.location.reload();
-    } catch (error) {
-      console.error("Error adding folder:", error);
+        handleCloseAnotherModal();
+        window.location.reload();
+      } catch (error) {
+        console.error("Error adding folder:", error);
+      }
     }
   };
   return (
@@ -208,6 +224,8 @@ const AddItem = () => {
           </Tooltip>
         </Box>
       )}
+      {openErrMod&&<ErrorModal onClose={()=>setOpenErrMod(false)} open={openErrMod} errorsList={{...folderFormData}}/>}
+      {openErrModItm&&<ErrorModal onClose={()=>setOpenErrModItm(false)} open={openErrModItm} errorsList={{...formData}}/>}
 
       <Modal
         open={openAnotherModal}
@@ -488,5 +506,65 @@ const AddItem = () => {
     </Box>
   );
 };
-
+const ErrorModal = ({ open = false, onClose = () => {} ,errorsList}) => {
+  console.log('errorssss',errorsList);
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    padding: "0px !important",
+    transform: "translate(-50%, -50%)",
+    width: 700,
+    bgcolor: "background.paper",
+    // border: '2px solid #000',
+    // boxShadow: 24,
+    // p: 4,
+  };
+  return (
+    <Modal open={open} onClose={onClose}>
+      <Box sx={{ ...style, width: 700 }}>
+        <div
+          style={{
+            width: "100%",
+            height: "100px",
+            backgroundColor: "red",
+            color: "#fff",
+            padding: "38px 20px 0px",
+          }}
+        >
+          <h1 id="parent-modal-title">Erreurs</h1>
+        </div>
+        <div style={{ padding: "38px 20px 0px", minHeight: "150px" }}>
+          <h2 id="parent-modal-description">
+            vous devez remplir le(s) champ(s) suivant(s):
+          </h2>
+          {
+            <ol style={{ fontSize: "20px", marginLeft: "40px" }}>
+              {Object.entries(errorsList)
+              .filter(([k,v])=>!v)
+              .map(([k,v])=>k)
+              .map(v=><li>{v}</li>)}
+            </ol>
+          }
+        </div>
+        <Box display="flex" justifyContent="flex-end" sx={{ p: 3 }}>
+          <Button
+            variant="contained"
+            onClick={onClose}
+            sx={{
+              marginRight: 2,
+              backgroundColor: "gray",
+              color: "white",
+              fontSize: "20px",
+              fontWeight: "bold",
+              width: "200px",
+            }}
+          >
+            Fermer
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
+  );
+};
 export default AddItem;

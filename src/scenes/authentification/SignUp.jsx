@@ -23,15 +23,15 @@ const SignUp = () => {
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
-    birthday: "",
+    birthday: new Date(),
     password: "",
     confirmPassword: "",
     email:""
   });
-console.log('hhhhh',data);
   const [errors, setErrors] = useState({});
   const [pageNumber, setPageNumber] = useState(1);
  const [touched , setTouched]=useState({})
+ console.log('hhhhh',errors);
 
   useEffect(() => {
     setErrors(validate(data, "signUp"));
@@ -110,9 +110,9 @@ console.log('hhhhh',data);
    };
 let navigate = useNavigate();
   return (
-    <form
-      onSubmit={submitHandler}
-      autoComplete="off"
+    <div
+      // onSubmit={submitHandler}
+      // autoComplete="off"
       className={styles.formLogin}
     >
       <div className={styles.title}>
@@ -145,7 +145,29 @@ let navigate = useNavigate();
                             onChange={changeHandler}/> }
         
       <div className={styles.FormGroup}>
-        <button type="submit" className={styles.next}>
+        <button  
+          className={`${styles.formButton} 
+          ${styles.next}`} 
+          onClick={(e)=>{
+            if(pageNumber===1){
+              setTouched({ ...touched, firstName: true,lastName:true });
+              if(!errors.firstName&&!errors.lastName){
+                submitHandler(e);
+              }
+            }else if(pageNumber===2){
+              setTouched({ ...touched, email:true })
+              if(!errors.email&&!errors.birthday){
+                submitHandler(e);
+              }
+            }else{
+              setTouched({ ...touched, password: true,confirmPassword:true })
+              if(!errors.password&&!errors.confirmPassword){
+                submitHandler(e);
+              }
+            }
+            }
+          }
+        >
           {pageNumber < 3 ? "Next" : "Finish"}
           {pageNumber < 3 ?<img src="/assets/next.svg" alt="Next" />:''}
         </button>
@@ -168,7 +190,7 @@ let navigate = useNavigate();
       </div>
 
       <ToastContainer />
-    </form>
+    </div>
   );
 };
 export default SignUp;

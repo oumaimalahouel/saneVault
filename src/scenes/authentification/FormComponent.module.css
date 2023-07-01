@@ -153,7 +153,20 @@ label {
 
 
 }
-
+.formButton {
+  top: 719px;
+  left: 1074px;
+  width: 691px;
+  height: 80px;
+  /* UI Properties */
+  background: #5547D2 0% 0% no-repeat padding-box;
+  border-radius: 11px;
+  opacity: 1;
+  margin-top: 80px;
+color: #FFFFFF;
+font-size: 30px;
+text-transform: capitalize;
+}
 
 
 

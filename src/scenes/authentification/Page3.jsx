@@ -78,7 +78,7 @@ const Page3 = (props) => {
               dateFormat="dd/MM/yyyy"
             />
           </div>
-          {errors.birthday && touched.birthday && (
+          {errors.birthday  && (
             <span className={styles.error}>{errors.birthday}</span>
           )}
         </div>
@@ -108,7 +108,7 @@ const Page3 = (props) => {
             /> 
           </div>
         </div>
-        {errors.email && touched.email && (
+        {errors.email && touched.email&& (
           <span className={styles.error}>{errors.email}</span>
         )}
       </div>

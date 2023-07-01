@@ -5,6 +5,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { notify } from "./toast";
 import { useNavigate } from "react-router-dom";
 import { validate } from "./validate";
+import { validateEmail, validatePassword } from "../../utils/commons";
 
 
 function ForgetPassword() {
@@ -22,24 +23,27 @@ const [errors, setErrors] = useState({});
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Envoyer la requête POST à l'API pour envoyer le code de vérification à l'e-mail spécifié
-      await axios.post(
-        "http://159.65.235.250:5443/idp/auth/send-verification-code",
-        {
-          email,
-        }
-      );
-
-      // Passer à l'étape suivante
-      setStep(2);
-    } catch (error) {
-      // Gérer les erreurs de la requête si nécessaire
-      console.log(
-        "Une erreur s'est produite lors de l'envoi du code de vérification :",
-        error
-      );
+    if(!errors.email){
+      try {
+        // Envoyer la requête POST à l'API pour envoyer le code de vérification à l'e-mail spécifié
+        await axios.post(
+          "http://159.65.235.250:5443/idp/auth/send-verification-code",
+          {
+            email,
+          }
+        );
+  
+        // Passer à l'étape suivante
+        setStep(2);
+      } catch (error) {
+        // Gérer les erreurs de la requête si nécessaire
+        console.log(
+          "Une erreur s'est produite lors de l'envoi du code de vérification :",
+          error
+        );
+      }
     }
+   
   };
 
   const handleVerificationCodeSubmit = async (e) => {
@@ -134,7 +138,7 @@ const [errors, setErrors] = useState({});
       </div>
       <div className={styles.formGroup}>
         {step === 1 && (
-          <form onSubmit={handleEmailSubmit}>
+          <div >
             <div className={styles.formGroup}>
               <label>Email:</label>
               <input
@@ -143,10 +147,22 @@ const [errors, setErrors] = useState({});
                 value={email}
                 placeholder="Type your email address..."
                 onChange={(e) => setEmail(e.target.value)}
+
+                onBlur={e=>setErrors({...errors,email:!validateEmail(e.target.value)})}
               />
             </div>
-            <button type="submit">Send Verification Code</button>
-          </form>
+            {errors.email && (
+              <label
+                style={{ color: "red", fontSize: "16px", fontWeight: 100 }}
+              >
+                Veuillez saisir une adresse e-mail valide
+              </label>
+            )}
+             <div className={styles.formGroup}>
+             <button onClick={handleEmailSubmit} className={styles.formButton}>Send Verification Code</button>
+
+              </div>
+          </div>
         )}
       </div>
       {step === 2 && (

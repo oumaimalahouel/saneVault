@@ -32,6 +32,12 @@ export const validate = (data, type) => {
       } else {
         delete errors.firstName;
       }
+      console.log('birthday',data.birthday)
+      if (!data.birthday ) {
+        errors.birthday = "birthday is Required!";
+      } else {
+        delete errors.birthday;
+      }
       if (type === "signUp") {
         if (!data.lastName ) {
           errors.lastName = "lastName is Required!";
